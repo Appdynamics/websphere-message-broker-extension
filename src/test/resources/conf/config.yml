@@ -1,0 +1,13 @@
+host: "localhost"
+port: 2414
+
+clientId: "wmb_appd_ext"
+
+resourceStatTopics:
+    - name: "﻿$SYS/Broker/+/Statistics/JSON/Resource/#"
+      subscriberName: "Hello1"
+
+
+#prefix used to show up metrics in AppDynamics
+metricPrefix:  "Custom Metrics|WMB|"
+
