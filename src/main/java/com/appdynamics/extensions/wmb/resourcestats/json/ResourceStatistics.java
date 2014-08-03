@@ -5,14 +5,13 @@ import java.util.List;
 
 public class ResourceStatistics {
 
-    private List<ResourceType> resourceTypes;
+    private List<ResourceType> ResourceType;
 
-
-    public List<ResourceType> getResourceTypes() {
-        return resourceTypes;
+    public List<ResourceType> getResourceType() {
+        return ResourceType;
     }
 
-    public void setResourceTypes(List<ResourceType> resourceTypes) {
-        this.resourceTypes = resourceTypes;
+    public void setResourceType(List<ResourceType> resourceType) {
+        ResourceType = resourceType;
     }
 }

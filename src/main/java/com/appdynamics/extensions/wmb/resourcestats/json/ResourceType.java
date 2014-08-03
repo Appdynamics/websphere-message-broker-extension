@@ -1,12 +1,16 @@
 package com.appdynamics.extensions.wmb.resourcestats.json;
 
 
+import com.google.gson.annotations.Expose;
+
+import java.beans.Transient;
 import java.util.List;
 
 public class ResourceType {
 
     private String name;
-    private List<ResourceIdentifier> resourceIdentifiers;
+
+    private List<ResourceIdentifier> resourceIdentifier;
 
     public String getName() {
         return name;
@@ -16,11 +20,11 @@ public class ResourceType {
         this.name = name;
     }
 
-    public List<ResourceIdentifier> getResourceIdentifiers() {
-        return resourceIdentifiers;
+    public List<ResourceIdentifier> getResourceIdentifier() {
+        return resourceIdentifier;
     }
 
-    public void setResourceIdentifiers(List<ResourceIdentifier> resourceIdentifiers) {
-        this.resourceIdentifiers = resourceIdentifiers;
+    public void setResourceIdentifier(List<ResourceIdentifier> resourceIdentifier) {
+        this.resourceIdentifier = resourceIdentifier;
     }
 }
