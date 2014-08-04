@@ -1,24 +1,19 @@
 import com.appdynamics.extensions.wmb.ParserBuilder;
 import com.appdynamics.extensions.wmb.ResourceStatMessageListener;
 import com.appdynamics.extensions.wmb.config.Configuration;
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsAdapter;
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsObj;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceIdentifier;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceType;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.google.common.io.Resources;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.ibm.jms.JMSTextMessage;
-import com.ibm.msg.client.jms.internal.JmsTextMessageImpl;
 import org.junit.Test;
 
 import javax.jms.JMSException;
-import javax.jms.Message;
 import javax.jms.TextMessage;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,25 +22,44 @@ import static org.mockito.Mockito.when;
 public class ResourceStatMessageListenerTest {
 
     @Test
-    public void canParseJsonMessageSuccessfully() throws IOException, JMSException {
-        Gson gson = getParser();
-        ResourceStatMessageListener listener = new ResourceStatMessageListener(new Configuration(),gson);
+    public void canParseXmlMessageSuccessfully() throws IOException, JMSException, JAXBException {
+        Unmarshaller unmarshaller = getParser();
+        ResourceStatMessageListener listener = new ResourceStatMessageListener(new Configuration(),unmarshaller);
         TextMessage mockMsg = mock(TextMessage.class);
-        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.json"));
+        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.xml"));
         listener.onMessage(mockMsg);
     }
 
     @Test
-    public void canParseJsonMessageUnSuccessfully() throws IOException, JMSException {
-        Gson gson = getParser();
-        ResourceStatMessageListener listener = new ResourceStatMessageListener(new Configuration(),gson);
+    public void shouldNotThrowErrorWhenMessageIsNull() throws IOException, JMSException, JAXBException {
+        Unmarshaller unmarshaller = getParser();
+        ResourceStatMessageListener listener = new ResourceStatMessageListener(new Configuration(),unmarshaller);
         TextMessage mockMsg = mock(TextMessage.class);
         when(mockMsg.getText()).thenReturn(null);
         listener.onMessage(mockMsg);
     }
 
-    private Gson getParser() {
-        return new ParserBuilder().getParser(ResourceStatsObj.class,new ResourceStatsAdapter());
+    @Test
+    public void canPostMetricsSuccessfully() throws IOException, JMSException, JAXBException {
+        Unmarshaller unmarshaller = getParser();
+        Configuration config = getConfiguration();
+        ResourceStatMessageListener listener = new ResourceStatMessageListener(config,unmarshaller);
+        TextMessage mockMsg = mock(TextMessage.class);
+        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.xml"));
+        listener.onMessage(mockMsg);
+    }
+
+    private Configuration getConfiguration() {
+        Configuration config = new Configuration();
+        config.setMetricPrefix("Custom Metrics|WMB|");
+        config.setMachineAgentUrl("http://localhost:8293/machineagent/metrics?");
+        config.setNumberThreads(10);
+        config.setThreadTimeout(2);
+        return config;
+    }
+
+    private Unmarshaller getParser() throws JAXBException {
+        return new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
     }
 
 

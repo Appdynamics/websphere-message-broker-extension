@@ -1,8 +1,6 @@
 package com.appdynamics.extensions.wmb.config;
 
 
-import java.util.List;
-
 public class ResourceStatTopic {
 
     private String name;

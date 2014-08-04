@@ -4,14 +4,16 @@ package com.appdynamics.extensions.wmb;
 import com.appdynamics.extensions.wmb.config.ConfigUtil;
 import com.appdynamics.extensions.wmb.config.Configuration;
 import com.appdynamics.extensions.wmb.config.ResourceStatTopic;
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsAdapter;
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsObj;
-import com.google.gson.*;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceIdentifier;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
+import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceType;
 import com.ibm.mq.jms.JMSC;
 import com.ibm.mq.jms.MQConnectionFactory;
 import org.apache.log4j.Logger;
 
 import javax.jms.*;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 import java.io.FileNotFoundException;
 
 public class WmbMonitor {
@@ -36,16 +38,21 @@ public class WmbMonitor {
                 //create connection
                 Connection conn = createConnection(configuration.getHost(), configuration.getPort(), configuration.getClientId());
                 //build parser
-                Gson parser = new ParserBuilder().getParser(ResourceStatsObj.class,new ResourceStatsAdapter());
+                Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
                 //register subscribers
                 registerSubscribers(conn,configuration,parser);
-
+                //wait indefinitely
+                while(true){
+                    Thread.sleep(configuration.getSleepTime());
+                }
 
             } catch (JMSException e) {
                 logger.error("Unable to connect or subscribe ::" + configuration.getHost() + "," + configuration.getPort(), e);
+            } catch (JAXBException e) {
+                logger.error("Unable to initialize the XML unmarshaller " + e);
+            } catch (InterruptedException e) {
+                logger.error("Insomniac! " + e);
             }
-            //ResourceStatsScheduledTask resourceStatsScheduledTask = new ResourceStatsScheduledTask(configuration);
-            //scheduledThreadPool.scheduleWithFixedDelay(resourceStatsScheduledTask,configuration.getInitialDelay(),configuration.getPeriod(),TimeUnit.SECONDS);
         } catch (FileNotFoundException e) {
             logger.error("Config file not found :: " + CONFIG_FILENAME, e);
         }
@@ -53,7 +60,7 @@ public class WmbMonitor {
 
     }
 
-    private void registerSubscribers(Connection conn, Configuration config,Gson parser) throws JMSException {
+    private void registerSubscribers(Connection conn, Configuration config,Unmarshaller parser) throws JMSException {
         Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
         if(config != null && config.getResourceStatTopics() != null){
             for(ResourceStatTopic resTopic : config.getResourceStatTopics()){
@@ -75,8 +82,5 @@ public class WmbMonitor {
         connection.setClientID(clientId);
         return connection;
     }
-
-
-
 
 }

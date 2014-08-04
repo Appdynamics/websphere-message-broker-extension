@@ -9,6 +9,10 @@ public class Configuration {
     private int port;
     private String clientId;
     private String metricPrefix;
+    private int sleepTime;
+    private String machineAgentUrl;
+    private int numberThreads;
+    private int threadTimeout;
     private List<ResourceStatTopic> resourceStatTopics;
 
 
@@ -51,5 +55,37 @@ public class Configuration {
 
     public void setMetricPrefix(String metricPrefix) {
         this.metricPrefix = metricPrefix;
+    }
+
+    public int getSleepTime() {
+        return sleepTime;
+    }
+
+    public void setSleepTime(int sleepTime) {
+        this.sleepTime = sleepTime;
+    }
+
+    public String getMachineAgentUrl() {
+        return machineAgentUrl;
+    }
+
+    public void setMachineAgentUrl(String machineAgentUrl) {
+        this.machineAgentUrl = machineAgentUrl;
+    }
+
+    public int getNumberThreads() {
+        return numberThreads;
+    }
+
+    public void setNumberThreads(int numberThreads) {
+        this.numberThreads = numberThreads;
+    }
+
+    public int getThreadTimeout() {
+        return threadTimeout;
+    }
+
+    public void setThreadTimeout(int threadTimeout) {
+        this.threadTimeout = threadTimeout;
     }
 }

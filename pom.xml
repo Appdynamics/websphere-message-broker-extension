@@ -43,9 +43,14 @@
             <version>1.9.5</version>
         </dependency>
         <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.2.4</version>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.3.5</version>
         </dependency>
         <!--<dependency>-->
             <!--<groupId>com.ibm.mqjms</groupId>-->
@@ -124,9 +129,10 @@
                         <configuration>
                             <target>
                                 <mkdir dir="${target.dir}"/>
-                                <copy todir="${target.dir}">
-                                    <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
-                                    <fileset dir="src/main/resources/conf" includes="config.yml"/>
+                                <mkdir dir="${target.dir}/conf"/>
+                                <copy todir="${target.dir}/conf">
+                                    <fileset dir="conf" includes="log4j.xml"/>
+                                    <fileset dir="conf" includes="config.yml"/>
                                 </copy>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>

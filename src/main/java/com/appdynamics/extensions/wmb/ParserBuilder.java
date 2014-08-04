@@ -1,17 +1,17 @@
 package com.appdynamics.extensions.wmb;
 
 
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsAdapter;
-import com.appdynamics.extensions.wmb.resourcestats.json.ResourceStatsObj;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializer;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Unmarshaller;
 
 public class ParserBuilder {
 
-    public Gson getParser(Class clazz,JsonDeserializer deserializer) {
-        GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapter(clazz,deserializer);
-        return builder.create();
+
+    public Unmarshaller getParser(Class... classes) throws JAXBException {
+        JAXBContext jaxbContext = JAXBContext.newInstance(classes);
+        Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+        return jaxbUnmarshaller;
     }
+
 }

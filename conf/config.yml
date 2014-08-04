@@ -8,6 +8,17 @@ resourceStatTopics:
     - name: "﻿$SYS/Broker/+/Statistics/JSON/Resource/#"
       subscriberName: "Hello1"
 
+# sleep time in seconds
+sleepTime: 20
+
+#Machine agent url
+machineAgentUrl: "http://localhost:8293/machineagent/metrics?"
+
+#Number of threads to make parallel http calls
+numberThreads : 10
+
+# Thread time out in seconds
+threadTimeout : 3
 
 #prefix used to show up metrics in AppDynamics
 metricPrefix:  "Custom Metrics|WMB|"
