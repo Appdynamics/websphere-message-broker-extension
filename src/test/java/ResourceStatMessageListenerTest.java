@@ -24,7 +24,7 @@ public class ResourceStatMessageListenerTest {
     @Test
     public void canParseXmlMessageSuccessfully() throws IOException, JMSException, JAXBException {
         Unmarshaller unmarshaller = getParser();
-        ResourceStatMessageListener listener = new ResourceStatMessageListener(new Configuration(),unmarshaller);
+        ResourceStatMessageListener listener = new ResourceStatMessageListener(getConfiguration(),unmarshaller);
         TextMessage mockMsg = mock(TextMessage.class);
         when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.xml"));
         listener.onMessage(mockMsg);
