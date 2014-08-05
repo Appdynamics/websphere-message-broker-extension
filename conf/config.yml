@@ -5,7 +5,7 @@ clientId: "wmb_appd_ext"
 
 resourceStatTopics:
     - name: "﻿$SYS/Broker/+/ResourceStatistics/#"
-      subscriberName: "Hello1"
+      subscriberName: "allRes"
 
 # sleep time in seconds
 sleepTime: 20
