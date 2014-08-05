@@ -40,8 +40,10 @@ public class WmbMonitor {
                 Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
                 //register subscribers
                 registerSubscribers(conn,configuration,parser);
+                logger.info("Message Listener is registered.");
                 //start connection
                 conn.start();
+                logger.info("Connection started. Wait Indefinitely.");
                 //wait indefinitely
                 while(true){
                     Thread.sleep(configuration.getSleepTime() * 1000);

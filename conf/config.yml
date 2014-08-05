@@ -1,5 +1,5 @@
-﻿host: "localhost"
-port: 2416
+﻿﻿host: "localhost"
+port: 2414
 
 clientId: "wmb_appd_ext"
 
