@@ -30,7 +30,6 @@ public class WmbMonitor {
     }
 
     public void execute(){
-        //#TODO in pom make sure log4j.xml is propagating in the zip. Also, in start up command pass log4j.xml
         try {
             // load the config file
             Configuration configuration = configUtil.readConfig(CONFIG_FILENAME,Configuration.class);
