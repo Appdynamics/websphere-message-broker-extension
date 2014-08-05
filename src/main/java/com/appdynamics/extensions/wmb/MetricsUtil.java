@@ -67,39 +67,46 @@ public class MetricsUtil {
 
     public void postMetrics(Configuration config,Map<String,String> metrics,final CloseableHttpClient httpClient) throws IOException {
         ExecutorService threadPool = Executors.newFixedThreadPool(config.getNumberThreads());
-        for(String key: metrics.keySet()) {
-            String value = metrics.get(key);
-            final String url = formUrl(config,key,value);
-            if(logger.isDebugEnabled()){
-                logger.debug("Posting metric : " + url);
-            }
-            Future task =  threadPool.submit(new Runnable() {
-                public void run() {
-                    HttpGet getMethod = new HttpGet(url);
-                    try {
-                        CloseableHttpResponse response = httpClient.execute(getMethod);
-                        if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
-                            logger.error("Posting metrics to machine agent failed : " + url);
-                        }
-                    } catch (ClientProtocolException e) {
-                        logger.error("Posting metrics to machine agent failed : " + url,e);
-                    } catch (IOException e) {
-                        logger.error("Posting metrics to machine agent failed : " + url,e);
-                    } finally {
-                        getMethod.releaseConnection();
-                    }
+        try {
+            for (String key : metrics.keySet()) {
+                String value = metrics.get(key);
+                final String url = formUrl(config, key, value);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Posting metric : " + url);
                 }
-            });
-            try {
-                task.get(config.getThreadTimeout(), TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                logger.error("Thread interrupted : " + url,e);
-            } catch (ExecutionException e) {
-                logger.error("Something unforeseen occurred : " + url, e);
-            } catch (TimeoutException e) {
-                logger.error("Thread timed out : " + url, e);
-            }
+                Future task = threadPool.submit(new Runnable() {
+                    public void run() {
+                        HttpGet getMethod = new HttpGet(url);
+                        try {
+                            CloseableHttpResponse response = httpClient.execute(getMethod);
+                            if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
+                                logger.error("Posting metrics to machine agent failed : " + url);
+                            }
+                        } catch (ClientProtocolException e) {
+                            logger.error("Posting metrics to machine agent failed : " + url, e);
+                        } catch (IOException e) {
+                            logger.error("Posting metrics to machine agent failed : " + url, e);
+                        } finally {
+                            getMethod.releaseConnection();
+                        }
+                    }
+                });
+                try {
+                    task.get(config.getThreadTimeout(), TimeUnit.SECONDS);
+                } catch (InterruptedException e) {
+                    logger.error("Thread interrupted : " + url, e);
+                } catch (ExecutionException e) {
+                    logger.error("Something unforeseen occurred : " + url, e);
+                } catch (TimeoutException e) {
+                    logger.error("Thread timed out : " + url, e);
+                }
 
+            }
+        }
+        finally {
+            if(!threadPool.isShutdown()){
+                threadPool.shutdown();
+            }
         }
     }
 

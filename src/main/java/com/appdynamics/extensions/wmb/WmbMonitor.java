@@ -41,9 +41,11 @@ public class WmbMonitor {
                 Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
                 //register subscribers
                 registerSubscribers(conn,configuration,parser);
+                //start connection
+                conn.start();
                 //wait indefinitely
                 while(true){
-                    Thread.sleep(configuration.getSleepTime());
+                    Thread.sleep(configuration.getSleepTime() * 1000);
                 }
 
             } catch (JMSException e) {

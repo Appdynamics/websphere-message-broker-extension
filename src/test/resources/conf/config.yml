@@ -4,7 +4,7 @@ port: 2414
 clientId: "wmb_appd_ext"
 
 resourceStatTopics:
-    - name: "﻿$SYS/Broker/+/Statistics/JSON/Resource/#"
+    - name: "﻿$SYS/Broker/+/ResourceStatistics/#"
       subscriberName: "Hello1"
 
 # sleep time in seconds
