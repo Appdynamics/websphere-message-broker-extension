@@ -1,5 +1,4 @@
-#host: "localhost"
-host: "192.168.57.101"
+host: "localhost"
 port: 2414
 
 clientId: "wmb_appd_ext"
