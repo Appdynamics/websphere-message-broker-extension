@@ -1,11 +1,11 @@
-host: "localhost"
-port: 2414
+﻿host: "localhost"
+port: 2416
 
 clientId: "wmb_appd_ext"
 
 resourceStatTopics:
-    - name: "﻿$SYS/Broker/+/ResourceStatistics/#"
-      subscriberName: "Hello1"
+    - name: "$SYS/Broker/+/ResourceStatistics/#"
+      subscriberName: "allResources"
 
 # sleep time in seconds
 sleepTime: 20
