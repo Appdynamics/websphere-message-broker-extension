@@ -143,7 +143,7 @@ After making the necessary changes in the config.yaml file, to start the extensi
  
 
 ## Custom Dashboard ##
-![]()
+![](https://raw.githubusercontent.com/Appdynamics/ibm-websphere-msg-broker-monitor/master/ibm-wmb.png)
 
 ## Contributing ##
 
