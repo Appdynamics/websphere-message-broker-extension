@@ -71,7 +71,7 @@ There are two types on configuration needed
 Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
 ## Custom Dashboard ##
-![](https://raw.githubusercontent.com/Appdynamics/zookeeper-monitoring-extension/master/zookeeper.png)
+![]()
 
 ## Contributing ##
 
