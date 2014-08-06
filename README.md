@@ -24,11 +24,11 @@ http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.do
 
 ## Configuration ##
 
-There are two types on configuration needed 
+There are two configurations needed 
 
  1. On the WebSphere Message Broker
      
-    To get resource statistics from the broker, enable the resource statistics on WMB (WebSphere Message Broker) first. There are two ways that you can enable statistics . 
+    To get resource statistics from the broker first you will have to enable the resource statistics on WMB (WebSphere Message Broker). There are two ways that you can enable statistics . 
 
         a. You can run "mqsichangeresourcestats" by running it in IBM Integration Console (in WMB 9.0) or  IBM WMB Command Console (in previous versions). 
         A sample command can be 
@@ -58,7 +58,7 @@ There are two types on configuration needed
           
     For more details, please follow the IBM documentation mentioned here  http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/aq20080_.htm?lang=en
     
-    The extension uses subscribes to a particular topic in a queue manager's queue. Please confirm that you have all of the following in the IBM WebSphere explorer
+    The extension subscribes to a particular topic in a queue manager's queue. Please confirm that you have all of the following in the IBM WebSphere MQ explorer
         
         a. A Queue Manager. 
         b. A TCP Listener on some port controlled/managed by Queue Manager. This port will be the port which we will use to subscribe to the statistics from the extension.
@@ -66,6 +66,8 @@ There are two types on configuration needed
     If the queue manager and/or tcp listener is not present, please create them.
       
  2. On the appdynamics extension
+ 
+    Configure the config.yml file in IbmWebSphereMsgBrokerMonitor directory
  
     ```
         ﻿host: "localhost"
@@ -124,7 +126,7 @@ agent's controller-info.xml, please use the below command to start the machine a
     ```
 
 The extension runs as a stand alone JVM and it subscribes to the configured topics on the broker's queue on the configured port. 
-To start the extension 
+After making the necessary changes in the config.yaml file, to start the extension 
     
     ```
         a. cd into the unzipped IbmWebSphereMsgBrokerMonitor directory. 
