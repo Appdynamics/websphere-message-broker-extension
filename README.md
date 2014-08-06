@@ -113,6 +113,8 @@ There are two configurations needed
 ###Note
 Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
+For older version of IBM WMB,if there are compatibility issues, try replacing the jar files in the lib folder with the old ones. The jar files can be found in the MQSI directory
+\IBM\WebSphere MQ\java\lib directory.
 
 ## Execution ##
 
