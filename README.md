@@ -26,30 +26,35 @@ http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.do
 
 There are two types on configuration needed 
 
-  1. On the WebSphere Message Broker
+ 1. On the WebSphere Message Broker
      
-        - To get resource statistics from the broker, enable the statistics on WMB (WebSphere Message Broker) first. To enable the statistics you will have to run
-          "mqsichangeresourcestats" by running it in IBM Integration Console (in WMB 9.0) or  IBM WMB Command Console (in previous versions). 
-          
-          A sample command can be 
-          ```      
-                mqsichangeresourcestats BrokerA -c active -e default 
+    To get resource statistics from the broker, enable the statistics on WMB (WebSphere Message Broker) first. To enable the statistics you will have to run "mqsichangeresourcestats" by running it in IBM Integration Console (in WMB 9.0) or  IBM WMB Command Console (in previous versions). 
+    A sample command can be 
+        ```      
+            mqsichangeresourcestats BrokerA -c active -e default 
                 
-                where, BrokerA -> The broker name.
-                       default -> The execution group.
-          ```
+            where, BrokerA -> The broker name.
+                   default -> The execution group.
+        ```
                        
-          Please follow the below documentation to get more familiar with the mqsichangeresourcestats command. 
-          
-               http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/bj43320_.htm?lang=en
+    Please follow the below documentation to get more familiar with the mqsichangeresourcestats command. 
+      http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/bj43320_.htm?lang=en
          
-          This command will publish metrics every 20 seconds to a topic. For eg. for the above command the statistics will get published 
-          on this topic $SYS/Broker/BrokerA/ResourceStatistics/default
+    This command will publish metrics every 20 seconds to a topic. For eg. for the above command the statistics will get published on this topic $SYS/Broker/BrokerA/ResourceStatistics/default
           
-          For more details, please follow the IBM documentation mentioned here http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/aq20080_.htm?lang=en
+    For more details, please follow the IBM documentation mentioned here  http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/aq20080_.htm?lang=en
           
-          
-        -    
+    You can also enable resource statistics from IBM WebSphere MQ Explorer. 
+      - Open IBM WebSphere MQ Explorer
+      - Click on Integration Node i.e. Broker Name.
+      - Right click on the execution group which you want statistics for and start resource statistics. 
+      
+    Once you have started the resource statistics by any of the above two approaches, you can confirm it by viewing the statistics as follows 
+      - Open IBM WebSphere MQ Explorer
+      - Click on Integration Node i.e. Broker Name.
+      - Right click on the execution group which you want statistics for and view resource statistics.   
+      
+      
   2. On the extension
 
 ###Note
