@@ -28,8 +28,11 @@ There are two types on configuration needed
 
  1. On the WebSphere Message Broker
      
-    To get resource statistics from the broker, enable the statistics on WMB (WebSphere Message Broker) first. To enable the statistics you will have to run "mqsichangeresourcestats" by running it in IBM Integration Console (in WMB 9.0) or  IBM WMB Command Console (in previous versions). 
+    To get resource statistics from the broker, enable the resource statistics on WMB (WebSphere Message Broker) first. There are two ways that you can enable statistics . 
+
+       a. You can run "mqsichangeresourcestats" by running it in IBM Integration Console (in WMB 9.0) or  IBM WMB Command Console (in previous versions). 
     A sample command can be 
+        
         ```      
             mqsichangeresourcestats BrokerA -c active -e default 
                 
@@ -39,23 +42,27 @@ There are two types on configuration needed
                        
     Please follow the below documentation to get more familiar with the mqsichangeresourcestats command. 
       http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/bj43320_.htm?lang=en
-         
-    This command will publish metrics every 20 seconds to a topic. For eg. for the above command the statistics will get published on this topic $SYS/Broker/BrokerA/ResourceStatistics/default
-          
-    For more details, please follow the IBM documentation mentioned here  http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/aq20080_.htm?lang=en
-          
-    You can also enable resource statistics from IBM WebSphere MQ Explorer. 
-      - Open IBM WebSphere MQ Explorer
-      - Click on Integration Node i.e. Broker Name.
-      - Right click on the execution group which you want statistics for and start resource statistics. 
+    
+       b. You can also enable resource statistics from IBM WebSphere MQ Explorer. 
+            - Open IBM WebSphere MQ Explorer
+            - Click on Integration Node i.e. Broker Name.
+            - Right click on the execution group which you want statistics for and start resource statistics. 
       
     Once you have started the resource statistics by any of the above two approaches, you can confirm it by viewing the statistics as follows 
       - Open IBM WebSphere MQ Explorer
       - Click on Integration Node i.e. Broker Name.
       - Right click on the execution group which you want statistics for and view resource statistics.   
       
+    The resource metrics get published every 20 seconds to a topic. For eg. for the above command, the statistics will get published on this topic $SYS/Broker/BrokerA/ResourceStatistics/default
+          
+    For more details, please follow the IBM documentation mentioned here  http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/aq20080_.htm?lang=en
+    
+    The extension uses subscribes to a particular topic in a queue manager's queue. Please confirm that you have all of the following in the IBM WebSphere explorer
+      a. A Queue Manager. 
+      b. A TCP Listener on some port controlled/managed by Queue Manager. This port will be the port which we will use to subscribe to the statistics from the extension.
+    If the queue manager and/or tcp listener is not present, please create them.
       
-  2. On the extension
+  2. On the appdynamics extension
 
 ###Note
 Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
