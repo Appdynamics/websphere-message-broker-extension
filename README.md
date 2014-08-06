@@ -66,9 +66,79 @@ There are two types on configuration needed
     If the queue manager and/or tcp listener is not present, please create them.
       
  2. On the appdynamics extension
-
+ 
+    ```
+        ﻿host: "localhost"
+        port: 2414
+        
+        clientId: "wmb_appd_ext"
+        
+        # Topic for all or a particular execution group belonging to a broker.
+        resourceStatTopics:
+            - name: "$SYS/Broker/+/ResourceStatistics/#"
+              subscriberName: "allResources"
+        
+        # sleep time in seconds
+        sleepTime: 20
+        
+        #Machine agent url
+        machineAgentUrl: "http://localhost:8293/machineagent/metrics?"
+        
+        #Number of threads to make parallel http calls
+        numberThreads : 10
+        
+        # Thread time out in seconds
+        threadTimeout : 3
+        
+        #prefix used to show up metrics in AppDynamics
+        metricPrefix:  "Custom Metrics|WMB|"
+        
+    ```
+    
+    In the above config, port # is the port on which the TCP listener was started in the IBM WebSphere MQ Explorer. 
+    By default, the extension will get statistics for all the execution groups on a particular broker. The "#" in the resourceStatTopics.name
+    signifies that. If you want to view statistics for selected execution groups, you can configure as below
+     
+    ```
+        # Topic for all or a particular execution group belonging to a broker.
+        resourceStatTopics:
+            - name: "$SYS/Broker/BrokerA/ResourceStatistics/execGroupA"
+              subscriberName: "execGroupA"
+            - name: "$SYS/Broker/BrokerA/ResourceStatistics/execGroupB"
+              subscriberName: "execGroupB"
+    ```
+       
 ###Note
 Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
+
+
+## Execution ##
+
+For this extension, the appdynamics machine agent needs to be started in http listener mode. After making the necessary configurations in the machine 
+agent's controller-info.xml, please use the below command to start the machine agent
+    
+    ```
+        java -Dmetric.http.listener=true -Dmetric.http.listener.port=<port_number> -jar machineagent.jar
+        
+        If you do not specify the optional metric.http.listener.port, it defaults to 8293.
+    ```
+
+The extension runs as a stand alone JVM and it subscribes to the configured topics on the broker's queue on the configured port. 
+To start the extension 
+    
+    ```
+        a. cd into the unzipped IbmWebSphereMsgBrokerMonitor directory. 
+        b. Run the following command 
+           On Windows : 
+                
+                java -Dlog4j.configuration=file:.\conf\log4j.xml -cp "ibm-websphere-msg-broker-extension.jar;lib\*" com.appdynamics.extensions.wmb.WmbMonitor
+    
+           On Unix or Linux : 
+           
+                java -Dlog4j.configuration=file:./conf/log4j.xml -cp "ibm-websphere-msg-broker-extension.jar:lib/*" com.appdynamics.extensions.wmb.WmbMonitor
+    
+    ```
+ 
 
 ## Custom Dashboard ##
 ![]()
