@@ -88,6 +88,7 @@ public class MetricsUtil {
                             logger.error("Posting metrics to machine agent failed : " + url, e);
                         } finally {
                             getMethod.releaseConnection();
+
                         }
                     }
                 });
