@@ -45,9 +45,7 @@ public class WmbMonitor {
                 conn.start();
                 logger.info("Connection started. Wait Indefinitely.");
                 //wait indefinitely
-                while(true){
-                    Thread.sleep(configuration.getSleepTime() * 1000);
-                }
+                this.wait();
 
             } catch (JMSException e) {
                 logger.error("Unable to connect or subscribe ::" + configuration.getHost() + "," + configuration.getPort(), e);
