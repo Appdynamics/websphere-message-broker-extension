@@ -19,7 +19,7 @@ http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.do
 
 ## Installation ##
 
-   ### To compile this project successfully, please copy the jar files from the <IBM_INSTALL_DIR>\WebSphere MQ\java\lib directory. On Windows, by default this is under ﻿C:\Program Files (x86)\IBM\WebSphere MQ\java\lib ###
+   ### To compile this project successfully, please copy the jar files from the <IBM_INSTALL_DIR>\WebSphere MQ\java\lib directory in the lib dir. On Windows, by default this is under ﻿C:\Program Files (x86)\IBM\WebSphere MQ\java\lib ###
 
 1. Run "mvn clean install" and find the IbmWebSphereMsgBrokerMonitor.zip file in the "target" folder. You can also download the IbmWebSphereMsgBrokerMonitor.zip from [AppDynamics Exchange][].
 2. Unzip IbmWebSphereMsgBrokerMonitor.zip as IbmWebSphereMsgBrokerMonitor.
