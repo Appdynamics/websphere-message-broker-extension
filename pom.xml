@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>ibm-websphere-msg-broker-extension</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -131,18 +131,14 @@
                             <target>
                                 <mkdir dir="${target.dir}"/>
                                 <mkdir dir="${target.dir}/conf"/>
-                                <mkdir dir="${target.dir}/lib"/>
                                 <copy todir="${target.dir}/conf">
                                     <fileset dir="conf" includes="log4j.xml"/>
                                     <fileset dir="conf" includes="config.yml"/>
                                 </copy>
-                                <copy todir="${target.dir}/lib">
-                                    <fileset dir="src/lib" includes="*"/>
-                                </copy>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
-                                <zip destfile="${target.dir}.zip">
+                                <zip destfile="${target.dir}-${project.version}.zip">
                                     <zipfileset dir="${target.dir}" filemode="755" prefix="IbmWebSphereMsgBrokerMonitor/"/>
                                 </zip>
                                 <delete dir="${target.dir}"/>
