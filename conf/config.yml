@@ -1,6 +1,8 @@
 ﻿﻿host: "localhost"
 port: 2414
 
+queueManager: ""
+
 clientId: "wmb_appd_ext"
 
 # Topic for all or a particular execution group belonging to a broker.

@@ -35,7 +35,7 @@ public class WmbMonitor {
             Configuration configuration = configUtil.readConfig(CONFIG_FILENAME,Configuration.class);
             try {
                 //create connection
-                Connection conn = createConnection(configuration.getHost(), configuration.getPort(), configuration.getClientId());
+                Connection conn = createConnection(configuration.getHost(), configuration.getPort(), configuration.getQueueManager(),configuration.getClientId());
                 //build parser
                 Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
                 //register subscribers
@@ -79,11 +79,12 @@ public class WmbMonitor {
 
 
 
-    private Connection createConnection(String host, int port, String clientId) throws JMSException {
+    private Connection createConnection(String host, int port,String queueManager, String clientId) throws JMSException {
         MQConnectionFactory cf = new MQConnectionFactory();
         cf.setHostName(host);
         cf.setPort(port);
         cf.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
+        cf.setQueueManager(queueManager);
         Connection connection =  cf.createConnection();
         connection.setClientID(clientId);
         return connection;

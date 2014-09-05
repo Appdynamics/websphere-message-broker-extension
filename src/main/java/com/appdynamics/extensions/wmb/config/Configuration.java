@@ -7,6 +7,7 @@ public class Configuration {
 
     private String host;
     private int port;
+    private String queueManager;
     private String clientId;
     private String metricPrefix;
     private int sleepTime;
@@ -87,5 +88,13 @@ public class Configuration {
 
     public void setThreadTimeout(int threadTimeout) {
         this.threadTimeout = threadTimeout;
+    }
+
+    public String getQueueManager() {
+        return queueManager;
+    }
+
+    public void setQueueManager(String queueManager) {
+        this.queueManager = queueManager;
     }
 }
