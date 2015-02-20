@@ -7,7 +7,10 @@ public class Configuration {
 
     private String host;
     private int port;
+    private String userID;
+    private String password;
     private String queueManager;
+    private String channelName;
     private String clientId;
     private String metricPrefix;
     private int sleepTime;
@@ -97,4 +100,32 @@ public class Configuration {
     public void setQueueManager(String queueManager) {
         this.queueManager = queueManager;
     }
+
+	
+
+	public String getUserID() {
+		return userID;
+	}
+
+	public void setUserID(String userID) {
+		this.userID = userID;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getChannelName() {
+		return channelName;
+	}
+
+	public void setChannelName(String channelName) {
+		this.channelName = channelName;
+	}
+    
+    
 }

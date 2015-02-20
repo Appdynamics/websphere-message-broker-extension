@@ -1,9 +1,13 @@
 ﻿﻿host: "localhost"
 port: 2414
 
+userID: ""
+password: ""
+
 clientId: "wmb_appd_ext"
 
 queueManager: ""
+channelName: ""
 
 resourceStatTopics:
     - name: "$SYS/Broker/+/ResourceStatistics/#"

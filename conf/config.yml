@@ -1,7 +1,11 @@
 ﻿﻿host: "localhost"
 port: 2414
 
+userID: ""
+password: ""
+
 queueManager: ""
+channelName: ""
 
 clientId: "wmb_appd_ext"
 

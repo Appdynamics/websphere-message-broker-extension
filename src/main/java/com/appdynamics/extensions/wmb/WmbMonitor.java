@@ -7,13 +7,16 @@ import com.appdynamics.extensions.wmb.config.ResourceStatTopic;
 import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceIdentifier;
 import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
 import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceType;
+import com.google.common.base.Strings;
 import com.ibm.mq.jms.JMSC;
 import com.ibm.mq.jms.MQConnectionFactory;
+
 import org.apache.log4j.Logger;
 
 import javax.jms.*;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
 import java.io.FileNotFoundException;
 
 public class WmbMonitor {
@@ -35,7 +38,7 @@ public class WmbMonitor {
             Configuration configuration = configUtil.readConfig(CONFIG_FILENAME,Configuration.class);
             try {
                 //create connection
-                Connection conn = createConnection(configuration.getHost(), configuration.getPort(), configuration.getQueueManager(),configuration.getClientId());
+                Connection conn = createConnection(configuration);
                 //build parser
                 Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
                 //register subscribers
@@ -79,14 +82,25 @@ public class WmbMonitor {
 
 
 
-    private Connection createConnection(String host, int port,String queueManager, String clientId) throws JMSException {
+    private Connection createConnection(Configuration config) throws JMSException {
         MQConnectionFactory cf = new MQConnectionFactory();
-        cf.setHostName(host);
-        cf.setPort(port);
+        cf.setHostName(config.getHost());
+        cf.setPort(config.getPort());
         cf.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
-        cf.setQueueManager(queueManager);
-        Connection connection =  cf.createConnection();
-        connection.setClientID(clientId);
+        cf.setQueueManager(config.getQueueManager());
+        if(!Strings.isNullOrEmpty(config.getChannelName())){
+        	cf.setChannel(config.getChannelName());
+        }
+        
+        Connection connection = null;
+        if(!Strings.isNullOrEmpty(config.getUserID()) && !Strings.isNullOrEmpty(config.getPassword())){
+        	connection = cf.createConnection(config.getUserID(), config.getPassword());
+        }
+        else{
+        	connection =  cf.createConnection();
+        }
+        
+        connection.setClientID(config.getClientId());
         return connection;
     }
 
