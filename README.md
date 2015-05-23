@@ -76,6 +76,12 @@ There are two configurations needed
         port: 2414
         
         clientId: "wmb_appd_ext"
+
+        userID: ""
+        password: ""
+
+        queueManager: ""
+        channelName: ""
         
         # Topic for all or a particular execution group belonging to a broker.
         resourceStatTopics:
