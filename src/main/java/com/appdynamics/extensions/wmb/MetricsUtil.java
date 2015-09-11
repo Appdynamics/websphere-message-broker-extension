@@ -77,8 +77,9 @@ public class MetricsUtil {
                 Future task = threadPool.submit(new Runnable() {
                     public void run() {
                         HttpGet getMethod = new HttpGet(url);
+                        CloseableHttpResponse response = null;
                         try {
-                            CloseableHttpResponse response = httpClient.execute(getMethod);
+                            response = httpClient.execute(getMethod);
                             if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
                                 logger.error("Posting metrics to machine agent failed : " + url);
                             }
@@ -87,6 +88,11 @@ public class MetricsUtil {
                         } catch (IOException e) {
                             logger.error("Posting metrics to machine agent failed : " + url, e);
                         } finally {
+                        	try {
+								response.close();
+							} catch (IOException e) {
+								logger.error("Unable to close the response",e);
+							}
                             getMethod.releaseConnection();
 
                         }

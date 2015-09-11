@@ -26,7 +26,7 @@ public class ResourceStatMessageListenerTest {
         Unmarshaller unmarshaller = getParser();
         ResourceStatMessageListener listener = new ResourceStatMessageListener(getConfiguration(),unmarshaller);
         TextMessage mockMsg = mock(TextMessage.class);
-        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.xml"));
+        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats1.xml"));
         listener.onMessage(mockMsg);
     }
 
@@ -45,7 +45,7 @@ public class ResourceStatMessageListenerTest {
         Configuration config = getConfiguration();
         ResourceStatMessageListener listener = new ResourceStatMessageListener(config,unmarshaller);
         TextMessage mockMsg = mock(TextMessage.class);
-        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats.xml"));
+        when(mockMsg.getText()).thenReturn(getFileContents("/resourceStats1.xml"));
         listener.onMessage(mockMsg);
     }
 

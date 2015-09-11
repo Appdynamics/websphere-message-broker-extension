@@ -2,16 +2,19 @@ package com.appdynamics.extensions.wmb;
 
 import com.appdynamics.extensions.wmb.config.Configuration;
 import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
+
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Logger;
 
+import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.Map;
@@ -30,10 +33,9 @@ public class ResourceStatMessageListener implements MessageListener {
     }
 
     public void onMessage(Message message) {
-        TextMessage tm = (TextMessage)message;
-        long startTime = System.currentTimeMillis();
+    	long startTime = System.currentTimeMillis();
         try {
-            String text = tm.getText();
+        	String text = getMessageString(message);
             if(text != null) {
                 StringReader reader = new StringReader(text);
                 try {
@@ -58,4 +60,18 @@ public class ResourceStatMessageListener implements MessageListener {
             logger.debug("Time taken to process one message : " + Long.toString(System.currentTimeMillis() - startTime));
         }
     }
+
+	private String getMessageString(Message message) throws JMSException {
+		if(message instanceof TextMessage){
+			TextMessage tm = (TextMessage)message;
+			return tm.getText();
+		}
+		else if(message instanceof BytesMessage){
+			BytesMessage bm=(BytesMessage)message;
+		    byte data[]=new byte[(int)bm.getBodyLength()];
+		    bm.readBytes(data);
+		    return new String(data);
+		}
+		throw new JMSException("Message is not of TextMessage/BytesMessage.");
+	}
 }

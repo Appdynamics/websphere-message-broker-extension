@@ -1,0 +1,36 @@
+<ResourceStatistics brokerLabel="UESBBRK12" brokerUUID="724bcf08-d46e-11e4-8fa4-ac1f75c80000" executionGroupName="GCS_INQUIRIES_H_GRP1_INS1_EG" executionGroupUUID="b9c1035c-4c01-0000-0080-e8dd800f0143" collectionStartDate="2015-06-15" collectionStartTime="15:04:12" startDate="2015-07-28" startTime="12:45:58" endDate="2015-07-28" endTime="12:46:18" timezone="Europe/London"> 
+<ResourceType name="Security"> 
+<resourceIdentifier name="summary" TotalCacheEntries="3" TotalOperations="0" TotalSuccessfulOperations="0" TotalOperationsServicedByCache="0"/> 
+</ResourceType> 
+<ResourceType name="CICS"> 
+<resourceIdentifier name="summary" RequestSuccess="0" RequestFailures="0" RequestSecurityFailures="0" ConnectionAttemptFailures="0"/> 
+</ResourceType> 
+<ResourceType name="CORBA"> 
+<resourceIdentifier name="summary" OutboundInvocations="0" OutboundSuccessfulInvocations="0" OutboundCorbaExceptions="0"/> 
+</ResourceType> 
+<ResourceType name="Sockets"> 
+<resourceIdentifier name="summary" TotalSockets="0" TotalMessages="0" TotalDataSent_KB="0" TotalDataReceived_KB="0" SentMessageSize_0-1KB="0" SentMessageSize_1KB-10KB="0" SentMessageSize_10KB-100KB="0" SentMessageSize_100KB-1MB="0" SentMessageSize_1MB-10MB="0" SentMessageSize_Over10MB="0" ReceivedMessageSize_0-1KB="0" ReceivedMessageSize_1KB-10KB="0" ReceivedMessageSize_10KB-100KB="0" ReceivedMessageSize_100KB-1MB="0" ReceivedMessageSize_1MB-10MB="0" ReceivedMessageSize_Over10MB="0"/> 
+</ResourceType> 
+<ResourceType name="SOAPInput"> 
+<resourceIdentifier name="summary" InboundMessagesTotal="0" RepliesSentTotal="0" InboundMessagesMadeFlow="0" InboundMessagesFaultedBeforeFlow="0" SuccessfulRepliesSent="0" FaultRepliesSent="0" PolicySetApplied=""/> 
+</ResourceType> 
+<ResourceType name="FTEAgent"> 
+<resourceIdentifier name="summary" InboundTransfers="0" InboundBytes="0" OutboundTransfers="0" OutboundBytes="0"/> 
+</ResourceType> 
+<ResourceType name="ConnectDirect"> 
+<resourceIdentifier name="summary" InboundTransfers="0" InboundBytes="0" NoHitTransfers="0" OutboundTransfers="0" OutboundBytes="0"/> 
+</ResourceType> 
+<ResourceType name="JDBCConnectionPools"> 
+<resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="0" CumulativeTimedOutRequests="0" MaxDelayInMilliseconds="0"/> 
+</ResourceType> 
+<ResourceType name="ODBC"> 
+<resourceIdentifier name="summary" ExecuteSuccess="12" ExecuteFailure="0" ActiveConnections="0" ClosedConnections="11" ConnectionErrors="0"/> 
+<resourceIdentifier name="GCSUSRDB" ExecuteSuccess="12" ExecuteFailure="0" ActiveConnections="0" ClosedConnections="11" ConnectionErrors="0"/> 
+</ResourceType> 
+<ResourceType name="JVM"> 
+<resourceIdentifier name="summary" InitialMemoryInMB="32" UsedMemoryInMB="44" CommittedMemoryInMB="64" MaxMemoryInMB="-1" CumulativeGCTimeInSeconds="3" CumulativeNumberOfGCCollections="2"/> 
+<resourceIdentifier name="Heap Memory" InitialMemoryInMB="32" UsedMemoryInMB="17" CommittedMemoryInMB="32" MaxMemoryInMB="256"/> 
+<resourceIdentifier name="Non-Heap Memory" InitialMemoryInMB="0" UsedMemoryInMB="27" CommittedMemoryInMB="32" MaxMemoryInMB="-1"/> 
+<resourceIdentifier name="Garbage Collection - MarkSweepCompact" CumulativeGCTimeInSeconds="3" CumulativeNumberOfGCCollections="2"/> 
+</ResourceType> 
+</ResourceStatistics>
