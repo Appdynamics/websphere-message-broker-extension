@@ -1,107 +1,96 @@
 package com.appdynamics.extensions.wmb;
 
 
-import com.appdynamics.extensions.wmb.config.ConfigUtil;
-import com.appdynamics.extensions.wmb.config.Configuration;
-import com.appdynamics.extensions.wmb.config.ResourceStatTopic;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceIdentifier;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceType;
-import com.google.common.base.Strings;
-import com.ibm.mq.jms.JMSC;
-import com.ibm.mq.jms.MQConnectionFactory;
+import com.appdynamics.extensions.conf.MonitorConfiguration;
+import com.appdynamics.extensions.util.MetricWriteHelper;
+import com.appdynamics.extensions.util.MetricWriteHelperFactory;
+import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
+import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
+import com.singularity.ee.agent.systemagent.api.TaskOutput;
+import com.singularity.ee.agent.systemagent.api.exception.TaskExecutionException;
+import org.slf4j.LoggerFactory;
 
-import org.apache.log4j.Logger;
+import java.util.List;
+import java.util.Map;
 
-import javax.jms.*;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
+public class WMBMonitor extends AManagedMonitor{
 
-import java.io.FileNotFoundException;
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(WMBMonitor.class);
+    private static final String CONFIG_ARG = "config-file";
+    private static final String METRIC_PREFIX = "Custom Metrics|WMB";
 
-public class WmbMonitor {
+    private MonitorConfiguration configuration;
+    private boolean initialized;
 
-    public static final Logger logger = Logger.getLogger(WmbMonitor.class);
-    public static final String CONFIG_FILENAME = "conf/config.yml";
-    private final static ConfigUtil<Configuration> configUtil = new ConfigUtil<Configuration>();
-
-    public static void main(String[] args){
-        logger.info("Starting the WMB Monitor");
-        WmbMonitor wmbMonitor = new WmbMonitor();
-        wmbMonitor.execute();
-        logger.info("Terminating the WMB Monitor");
+    public WMBMonitor(){
+        System.out.println(logVersion());
     }
 
-    public void execute(){
-        try {
-            // load the config file
-            Configuration configuration = configUtil.readConfig(CONFIG_FILENAME,Configuration.class);
-            try {
-                //create connection
-                Connection conn = createConnection(configuration);
-                //build parser
-                Unmarshaller parser = new ParserBuilder().getParser(ResourceStatistics.class, ResourceIdentifier.class, ResourceType.class);
-                //register subscribers
-                registerSubscribers(conn,configuration,parser);
-                logger.info("Message Listener is registered.");
-                //start connection
-                conn.start();
-                logger.info("Connection started. Wait Indefinitely.");
-                //wait indefinitely
-//                while(true){
-//                    Thread.sleep(configuration.getSleepTime());
-//                }
-                Object obj = new Object();
-                synchronized (obj) {
-                    obj.wait();
+    public TaskOutput execute(Map<String, String> taskArgs, TaskExecutionContext out) throws TaskExecutionException {
+        logVersion();
+        if(!initialized){
+            initialize(taskArgs);
+        }
+        logger.debug("The raw arguments are {}", taskArgs);
+        configuration.executeTask();
+        //logger.info("WMB monitor run completed successfully.");
+        return new TaskOutput("WMB monitor run completed successfully.");
+    }
+
+    private void initialize(Map<String, String> taskArgs) {
+        //read the config.
+        final String configFilePath = taskArgs.get(CONFIG_ARG);
+        MetricWriteHelper metricWriteHelper = MetricWriteHelperFactory.create(this);
+        MonitorConfiguration conf = new MonitorConfiguration(METRIC_PREFIX, new TaskRunnable(), metricWriteHelper);
+        conf.setConfigYml(configFilePath);
+        conf.checkIfInitialized(MonitorConfiguration.ConfItem.CONFIG_YML, MonitorConfiguration.ConfItem.EXECUTOR_SERVICE,
+                MonitorConfiguration.ConfItem.METRIC_PREFIX,MonitorConfiguration.ConfItem.METRIC_WRITE_HELPER);
+        this.configuration = conf;
+        Map<String, ?> config = configuration.getConfigYml();
+        logger.info("The config is {}",config);
+        if (config != null) {
+            List<Map> managers = (List<Map>) config.get("queueManagers");
+            if (managers != null && !managers.isEmpty()) {
+                for (Map manager : managers) {
+                    WMBMonitorTask task = createTask(manager);
+                    configuration.getExecutorService().execute(task);
+                        /*try {
+                            Thread.sleep(100000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }*/
                 }
-            } catch (JMSException e) {
-                logger.error("Unable to connect or subscribe ::" + configuration.getHost() + "," + configuration.getPort(), e);
-            } catch (JAXBException e) {
-                logger.error("Unable to initialize the XML unmarshaller " + e);
-            } catch (InterruptedException e) {
-                logger.error("Insomniac! " + e);
+            } else {
+                logger.error("There are no queue managers configured");
             }
-        } catch (FileNotFoundException e) {
-            logger.error("Config file not found :: " + CONFIG_FILENAME, e);
+        } else {
+            logger.error("The config.yml is not loaded due to previous errors.The task will not run");
         }
-
-
-    }
-
-    private void registerSubscribers(Connection conn, Configuration config,Unmarshaller parser) throws JMSException {
-        Session session = conn.createSession(false, Session.AUTO_ACKNOWLEDGE);
-        if(config != null && config.getResourceStatTopics() != null){
-            for(ResourceStatTopic resTopic : config.getResourceStatTopics()){
-                Topic topic = session.createTopic(resTopic.getName());
-                TopicSubscriber topicSub = session.createDurableSubscriber(topic,resTopic.getSubscriberName());
-                topicSub.setMessageListener(new ResourceStatMessageListener(config,parser));
-            }
-        }
+        initialized = true;
     }
 
 
-
-    private Connection createConnection(Configuration config) throws JMSException {
-        MQConnectionFactory cf = new MQConnectionFactory();
-        cf.setHostName(config.getHost());
-        cf.setPort(config.getPort());
-        cf.setTransportType(JMSC.MQJMS_TP_CLIENT_MQ_TCPIP);
-        cf.setQueueManager(config.getQueueManager());
-        if(!Strings.isNullOrEmpty(config.getChannelName())){
-        	cf.setChannel(config.getChannelName());
-        }
-        
-        Connection connection = null;
-        if(!Strings.isNullOrEmpty(config.getUserID()) && !Strings.isNullOrEmpty(config.getPassword())){
-        	connection = cf.createConnection(config.getUserID(), config.getPassword());
-        }
-        else{
-        	connection =  cf.createConnection();
-        }
-        
-        connection.setClientID(config.getClientId());
-        return connection;
+    private WMBMonitorTask createTask(Map manager) {
+        return new WMBMonitorTask.Builder()
+                .metricPrefix(configuration.getMetricPrefix())
+                .metricWriter(configuration.getMetricWriter())
+                .manager(manager)
+                .build();
     }
 
+    private class TaskRunnable implements Runnable{
+        public void run() {
+            logger.info("Executing periodic run of WMBMonitor.");
+        }
+    }
+
+    private static String getImplementationVersion() {
+        return WMBMonitor.class.getPackage().getImplementationTitle();
+    }
+
+    private String logVersion() {
+        String msg = "Using Monitor Version [" + getImplementationVersion() + "]";
+        logger.info(msg);
+        return msg;
+    }
 }

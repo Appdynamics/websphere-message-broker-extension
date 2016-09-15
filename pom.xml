@@ -6,24 +6,33 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>ibm-websphere-msg-broker-extension</artifactId>
-    <version>1.0.6</version>
+    <version>3.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
-        <target.dir>${project.build.directory}/IbmWebSphereMsgBrokerMonitor</target.dir>
+        <target.dir>${project.build.directory}/WMBMonitor</target.dir>
+        <lib.dir>${basedir}/lib</lib.dir>
+        <ibm.mq.lib.version>7.5.2</ibm.mq.lib.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>r09</version>
+            <groupId>com.appdynamics</groupId>
+            <artifactId>machine-agent</artifactId>
+            <version>3.7.11</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>1.13</version>
+            <groupId>com.appdynamics</groupId>
+            <artifactId>appd-exts-commons</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -32,15 +41,10 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>log4j</groupId>
-            <artifactId>log4j</artifactId>
-            <version>1.2.17</version>
-            <!--<scope>provided</scope>-->
-        </dependency>
-        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <version>1.9.5</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.bind</groupId>
@@ -48,16 +52,18 @@
             <version>2.2.7</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.3.5</version>
+            <groupId>jms</groupId>
+            <artifactId>jms</artifactId>
+            <scope>system</scope>
+            <version>${ibm.mq.lib.version}</version>
+            <systemPath>${lib.dir}/jms.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.ibm.mqjms</groupId>
             <artifactId>com.ibm.mqjms</artifactId>
-            <version>9.0.0.1</version>
             <scope>system</scope>
-            <systemPath>${basedir}/src/lib/com.ibm.mqjms.jar</systemPath>
+            <version>${ibm.mq.lib.version}</version>
+            <systemPath>${lib.dir}/com.ibm.mqjms.jar</systemPath>
         </dependency>
     </dependencies>
     <build>
@@ -109,8 +115,8 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.appdynamics.extensions.wmb.WmbMonitor</mainClass>
                                     <manifestEntries>
+                                        <Main-Class>com.appdynamics.extensions.workbench.WorkbenchServerLauncher</Main-Class>
                                         <Implementation-Title>IBM WebSphere Msg Broker Monitor v${project.version} Build Date ${maven.build.timestamp}</Implementation-Title>
                                     </manifestEntries>
                                 </transformer>
@@ -130,20 +136,19 @@
                         <configuration>
                             <target>
                                 <mkdir dir="${target.dir}"/>
-                                <mkdir dir="${target.dir}/conf"/>
-                                <copy todir="${target.dir}/conf">
-                                    <fileset dir="conf" includes="log4j.xml"/>
-                                    <fileset dir="conf" includes="config.yml"/>
+                                <mkdir dir="${target.dir}/lib"/>
+                                <copy todir="${target.dir}">
+                                    <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
+                                    <fileset dir="src/main/resources/conf" includes="config.yml"/>
                                 </copy>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>
                                 <zip destfile="${target.dir}-${project.version}.zip">
-                                    <zipfileset dir="${target.dir}" filemode="755" prefix="IbmWebSphereMsgBrokerMonitor/"/>
+                                    <zipfileset dir="${target.dir}" filemode="755" prefix="WMBMonitor/"/>
                                 </zip>
                                 <delete dir="${target.dir}"/>
                             </target>
-
                         </configuration>
                         <goals>
                             <goal>run</goal>

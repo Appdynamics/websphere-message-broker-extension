@@ -1,0 +1,39 @@
+#This will create the metrics in all the tiers,under this path
+#metricPrefix: "Custom Metrics|WMB"
+
+#This will create the metrics in a specific Tier/Component. Make sure to replace the
+#<COMPONENT_ID> with the appropriate one from your environment. To find the <COMPONENT_ID> in your environment
+#,please follow the screenshot here https://docs.appdynamics.com/display/PRO42/Build+a+Monitoring+Extension+Using+Java
+metricPrefix: "Server|Component:<COMPONENT_ID>|Custom Metrics|WMB"
+
+queueManagers:
+  - host: "localhost"
+    #TCP Listener port. Please make sure that the listener is started.
+    port: 2414
+    #Actual name of the queue manager.
+    name: "QMgr1"
+    #Channel name of the queue manager. Channel should be server-conn type. Make sure the channel is active.
+    channelName: "SYSTEM.ADMIN.SVRCONN"
+    #The transport type for the queue manager connection, the default is "Bindings".
+    #For bindings type connection WMQ extension (i.e machine agent) need to be on the same machine on which WebsphereMQ server is running
+    #for client type connection WMQ extension is remote to the WebsphereMQ server. For client type, Change it to "Client".
+    transportType: "Bindings"
+    #userId and password with admin level credentials. For Windows, please provide the administrator credentials.
+    userID: ""
+    password: ""
+    #SSL related properties. Please provide the path.
+    sslKeyRepository: ""
+    #Cipher Suites. eg. "SSL_RSA_WITH_AES_128_CBC_SHA256"
+    cipherSuite: ""
+    clientID: "wmb_appd_ext"
+
+    #This extension extracts resource statistics as listed
+    #http://www.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bn43250_.htm
+    #Please make sure to provide unique subscriber name for each resourcestatistic.
+    metrics:
+      resourceStatistics:
+        - name: "$SYS/Broker/+/ResourceStatistics/#"
+          subscriberName: "allResources"
+
+
+numberOfThreads: 10

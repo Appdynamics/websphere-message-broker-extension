@@ -1,30 +1,37 @@
-﻿﻿host: "localhost"
-port: 2414
+﻿#This will create this metric in all the tiers, under this path
+#metricPrefix: Custom Metrics|WMB
 
-userID: ""
-password: ""
+#This will create it in specific Tier/Component. Make sure to replace <COMPONENT_ID> with the appropriate one from your environment.
+#To find the <COMPONENT_ID> in your environment, please follow the screenshot https://docs.appdynamics.com/display/PRO42/Build+a+Monitoring+Extension+Using+Java
+metricPrefix: Server|Component:<COMPONENT_ID>|Custom Metrics|WMB
 
-clientId: "wmb_appd_ext"
+queueManagers:
+  - host: "localhost"
+    port: 2414
+    #Actual name of the queue manager
+    name: "QMgr1"
+    #Channel name of the queue manager, channel should be server-conn type.Make sure the channel is active.
+    channelName: "SYSTEM.ADMIN.SVRCONN"
+    transportType: "Bindings"
+    #user with admin level access. In case of Windows, please provide the admin Window's credentials.
+    userID: ""
+    password: ""
+    #SSL related properties
+    # e.g."C:/Program Files (x86)/IBM/WebSphere MQ/ssl/key" , Please use forward slash in the path.
+    sslKeyRepository: ""
+    # e.g. "SSL_RSA_WITH_AES_128_CBC_SHA256"
+    cipherSuite: ""
+    clientID: "wmb_appd_ext"
 
-queueManager: ""
-channelName: ""
+    #This extension extracts resource statistics as listed
+    #http://www.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bn43250_.htm
+    #Please make sure to provide unique subscriber name for each resourceStatistic.
+    metrics:
+      resourceStatistics:
+        - name: "$SYS/Broker/+/ResourceStatistics/#"
+          subscriberName: "allResources"
 
-resourceStatTopics:
-    - name: "$SYS/Broker/+/ResourceStatistics/#"
-      subscriberName: "allResources"
 
-# sleep time in seconds
-sleepTime: 20
+numberOfThreads : 10
 
-#Machine agent url
-machineAgentUrl: "http://localhost:8293/machineagent/metrics?"
-
-#Number of threads to make parallel http calls
-numberThreads : 10
-
-# Thread time out in seconds
-threadTimeout : 3
-
-#prefix used to show up metrics in AppDynamics
-metricPrefix:  "Custom Metrics|WMB|"
 

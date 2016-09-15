@@ -1,32 +1,73 @@
 ibm-websphere-msg-broker-monitor
 ================================
+
+Use Case
+--------
+
 The IBM Integration Bus, formerly known as the IBM WebSphere Message Broker Family, provides a variety of options for implementing a 
 universal integration foundation based on an enterprise service bus (ESB). Implementations help to enable connectivity and transformation 
 in heterogeneous IT environments for businesses of any size, in any industry and covering a range of platforms including cloud and z/OS.
-
-
-## Metrics Provided ##
 
 This extension extracts only resource level statistics. The list of metrics that it extracts can be found here
 
 http://www-01.ibm.com/support/knowledgecenter/SSMKHH_9.0.0/com.ibm.etools.mft.doc/bn43250_.htm?lang=en
 
-## Dependencies ##
+Prerequisites
+--------------
 
-- IBM WebSphere Message Broker.
-- AppDynamics Machine Agent in HttpListener mode.  
+This extension requires a AppDynamics Java Machine Agent installed and running. 
+
+If this extension is configured for **CLIENT** transport type (more on that later), please make sure the MQ's host and port is accessible. 
+ 
+If this extension is configured for **CLIENT** transport type (more on that later), admin level credentials to the queue manager would be needed. If the hosting OS for IBM MQ is Windows, Windows user credentials will be needed. 
+
+Dependencies
+------------
+
+All the jars in the **<IBM_INSTALL_DIR>\WebSphere MQ\java\lib** directory or its equivalent on Unix namely - 
+
+```
+    CL3Export.jar
+    CL3Nonexport.jar
+    com.ibm.mq.axis2.jar
+    com.ibm.mq.commonservices.jar
+    com.ibm.mq.defaultconfig.jar
+    com.ibm.mq.headers.jar
+    com.ibm.mq.jar
+    com.ibm.mq.jmqi.jar
+    com.ibm.mq.jms.Nojndi.jar
+    com.ibm.mq.pcf.jar
+    com.ibm.mq.postcard.jar
+    com.ibm.mq.soap.jar
+    com.ibm.mq.tools.ras.jar
+    com.ibm.mqjms.jar
+    connector.jar
+    dhbcore.jar
+    fscontext.jar
+    jms.jar
+    jndi.jar
+    jta.jar
+    ldap.jar
+    providerutil.jar
+    rmm.jar
+```
 
 
-## Installation ##
 
-   ### To compile this project successfully, please copy the jar files from the <IBM_INSTALL_DIR>\WebSphere MQ\java\lib directory in the lib dir. On Windows, by default this is under ﻿C:\Program Files (x86)\IBM\WebSphere MQ\java\lib ###
+Rebuilding the Project
+----------------------
 
-1. Run "mvn clean install" and find the IbmWebSphereMsgBrokerMonitor.zip file in the "target" folder. You can also download the IbmWebSphereMsgBrokerMonitor.zip from [AppDynamics Exchange][].
-2. Unzip IbmWebSphereMsgBrokerMonitor.zip as IbmWebSphereMsgBrokerMonitor.
+1. Clone the repo ibm-websphere-msg-broker-monitor from GitHub https://github.com/Appdynamics
+2. Copy all the jar files from the **<IBM_INSTALL_DIR>\WebSphere MQ\java\lib** directory or its equivalent on Unix  directory to the **<Machine_Agent_Dir>\WMBMonitor\lib**. 
+   Create a lib folder if not already present.
+3. Run 'mvn clean install' from the cloned ibm-websphere-msg-broker-monitor directory.
+4. The WMBMonitor-<version>.zip should get built and found in the 'target' directory.
 
-## Configuration ##
 
-There are two configurations needed 
+Installation
+-------------
+
+There are three configurations needed 
 
  1. On the WebSphere Message Broker
      
@@ -69,39 +110,48 @@ There are two configurations needed
       
  2. On the appdynamics extension
  
-    Configure the config.yml file in IbmWebSphereMsgBrokerMonitor directory
+    Configure the config.yml file in WMBMonitor directory
  
     ```
-        ﻿host: "localhost"
-        port: 2414
+        #This will create the metrics in all the tiers,under this path
+        #metricPrefix: "Custom Metrics|WMB"
         
-        clientId: "wmb_appd_ext"
-
-        userID: ""
-        password: ""
-
-        queueManager: ""
-        channelName: ""
+        #This will create the metrics in a specific Tier/Component. Make sure to replace the
+        #<COMPONENT_ID> with the appropriate one from your environment. To find the <COMPONENT_ID> in your environment,
+        #Please follow the screenshot here https://docs.appdynamics.com/display/PRO42/Build+a+Monitoring+Extension+Using+Java
+        metricPrefix: "Server|Component:<COMPONENT_ID>|Custom Metrics|WMB"
         
-        # Topic for all or a particular execution group belonging to a broker.
-        resourceStatTopics:
-            - name: "$SYS/Broker/+/ResourceStatistics/#"
-              subscriberName: "allResources"
+        queueManagers:
+          - host: "localhost"
+            #TCP Listener port. Please make sure that the listener is started.
+            port: 2414
+            #Actual name of the queue manager.
+            name: "QMgr1"
+            #Channel name of the queue manager. Channel should be server-conn type. Make sure the channel is active.
+            channelName: "SYSTEM.ADMIN.SVRCONN"
+            #The transport type for the queue manager connection, the default is "Bindings".
+            #For bindings type connection WMQ extension (i.e machine agent) need to be on the same machine on which WebsphereMQ server is running
+            #for client type connection WMQ extension is remote to the WebsphereMQ server. For client type, Change it to "Client".
+            transportType: "Bindings"
+            #userId and password with admin level credentials. For Windows, please provide the administrator credentials.
+            userID: ""
+            password: ""
+            #SSL related properties. Please provide the path.
+            sslKeyRepository: ""
+            #Cipher Suites. eg. "SSL_RSA_WITH_AES_128_CBC_SHA256"
+            cipherSuite: ""
+            clientID: "wmb_appd_ext"
         
-        # sleep time in seconds
-        sleepTime: 20
+            #This extension extracts resource statistics as listed
+            #http://www.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bn43250_.htm
+            #Please make sure to provide unique subscriber name for each resourcestatistic.
+            metrics:
+              resourceStatistics:
+                - name: "$SYS/Broker/+/ResourceStatistics/#"
+                  subscriberName: "allResources"
         
-        #Machine agent url
-        machineAgentUrl: "http://localhost:8293/machineagent/metrics?"
         
-        #Number of threads to make parallel http calls
-        numberThreads : 10
-        
-        # Thread time out in seconds
-        threadTimeout : 3
-        
-        #prefix used to show up metrics in AppDynamics
-        metricPrefix:  "Custom Metrics|WMB|"
+        numberOfThreads: 10
         
     ```
     
@@ -117,42 +167,48 @@ There are two configurations needed
             - name: "$SYS/Broker/BrokerA/ResourceStatistics/execGroupB"
               subscriberName: "execGroupB"
     ```
-       
-###Note
-Please make sure to not use tab (\t) while editing yaml files. You may want to validate the yaml file using a yaml validator http://yamllint.com/
 
-For older version of IBM WMB,if there are compatibility issues, try replacing the jar files in the lib folder with the old ones. The jar files can be found in the MQSI directory
-\IBM\WebSphere MQ\java\lib directory.
+  
+Troubleshooting
+---------------
 
-## Execution ##
+1. Verify Machine Agent Data: Please start the Machine Agent without the extension and make sure that it reports data. Verify that the machine agent status is UP and it is reporting Hardware Metrics.
+2. config.yml: Validate the file [here](http://www.yamllint.com/)
+3. MQ Version incompatibilities :  In case of any jar incompatibility issue, the rule of thumb is to **Use the jars from MQ version 8.0**.  
+4. Metric Limit: Please start the machine agent with the argument -Dappdynamics.agent.maxMetrics=5000 if there is a metric limit reached error in the logs. If you don't see the expected metrics, this could be the cause.
+5. Check Logs: There could be some obvious errors in the machine agent logs. Please take a look.
+6. `The config cannot be null` error.
+   This usually happenes when on a windows machine in monitor.xml you give config.yaml file path with linux file path separator `/`. Use Windows file path separator `\` e.g. `monitors\MQMonitor\config.yaml`. For Windows, please specify 
+   the complete path
 
-For this extension, the appdynamics machine agent needs to be started in http listener mode. After making the necessary configurations in the machine 
-agent's controller-info.xml, please use the below command to start the machine agent
-    
-    ```
-        java -Dmetric.http.listener=true -Dmetric.http.listener.port=<port_number> -jar machineagent.jar
-        
-        If you do not specify the optional metric.http.listener.port, it defaults to 8293.
-    ```
+7. Collect Debug Logs: Edit the file, <MachineAgent>/conf/logging/log4j.xml and update the level of the appender **com.appdynamics** and **com.singularity** to debug Let it run for 5-10 minutes and attach the logs to a support ticket
 
-The extension runs as a stand alone JVM and it subscribes to the configured topics on the broker's queue on the configured port. 
-After making the necessary changes in the config.yaml file, to start the extension 
-    
-    ```
-        a. cd into the unzipped IbmWebSphereMsgBrokerMonitor directory. 
-        b. Run the following command 
-           On Windows : 
-                
-                java -Dlog4j.configuration=file:.\conf\log4j.xml -cp "ibm-websphere-msg-broker-extension.jar;<IBM_INSTALL_DIR>\WebSphere MQ\java\lib\*" com.appdynamics.extensions.wmb.WmbMonitor
-                
-                By default the <IBM_INSTALL_DIR> is under ﻿C:\Program Files (x86)\IBM\WebSphere MQ\java\lib
-    
-           On Unix or Linux : 
-           
-                java -Dlog4j.configuration=file:./conf/log4j.xml -cp "ibm-websphere-msg-broker-extension.jar:<IBM_INSTALL_DIR>\WebSphere MQ\java\lib/*" com.appdynamics.extensions.wmb.WmbMonitor
-    
-    ```
- 
+
+WorkBench
+---------
+
+Workbench is a feature by which you can preview the metrics before registering it with the controller. This is useful if you want to fine tune the configurations. Workbench is embedded into the extension jar.
+To use the workbench
+
+1. Follow all the installation steps
+2. Start the workbench with the command
+
+```
+    java -jar /path/to/MachineAgent/monitors/WMBMonitor/ibm-websphere-msg--broker-extension.jar
+```
+
+  This starts an http server at http://host:9090/. This can be accessed from the browser.
+3. If the server is not accessible from outside/browser, you can use the following end points to see the list of registered metrics and errors.
+
+```
+    #Get the stats
+    curl http://localhost:9090/api/stats
+    #Get the registered metrics
+    curl http://localhost:9090/api/metric-paths
+```
+4. You can make the changes to config.yml and validate it from the browser or the API
+5. Once the configuration is complete, you can kill the workbench and start the Machine Agent
+
 
 ## Custom Dashboard ##
 ![](https://raw.githubusercontent.com/Appdynamics/ibm-websphere-msg-broker-monitor/master/ibm-wmb.png)
@@ -169,11 +225,11 @@ Find out more in the [AppDynamics Exchange][].
 
 For any questions or feature request, please contact [AppDynamics Center of Excellence][].
 
-**Version:** 1.0.0
-**Controller Compatibility:** 3.7+
-**IBM WebSphere Message Broker Version Tested On:** 9.0.0.2
+**Version:** 3.0.0
+**Controller Compatibility:** 4.0+
+**IBM WebSphere Message Broker Version Tested On:** 8.0.0.0
 
 
 [Github]: https://github.com/Appdynamics/ibm-websphere-msg-broker-monitor
 [AppDynamics Exchange]: http://community.appdynamics.com/t5/AppDynamics-eXchange/idb-p/extensions
-[AppDynamics Center of Excellence]: mailto:ace-request@appdynamics.com
+[AppDynamics Center of Excellence]: mailto:help@appdynamics.com
