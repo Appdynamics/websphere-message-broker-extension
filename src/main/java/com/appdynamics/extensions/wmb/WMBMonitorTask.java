@@ -55,6 +55,8 @@ class WMBMonitorTask implements Runnable{
             logger.error("Couldn't initialize the parser",e);
         } catch (InterruptedException e) {
             logger.error("Indefinite wait is interrupted..",e);
+        } catch (Exception e){
+            logger.error("Something unforeseen has happened..",e);
         }
     }
 
