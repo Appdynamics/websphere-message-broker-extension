@@ -28,7 +28,8 @@ public class MetricValueTransformer {
             return bigD;
         }
         catch(NumberFormatException nfe){
-            logger.warn("Cannot convert into BigDecimal {} value for metric {}.",metricValue,metricName);
+        	// debug, not warning, as this is the expected behavior for many attributes
+            logger.debug("Cannot convert into BigDecimal {} value for metric {}.",metricValue,metricName);
         }
         return null;
     }

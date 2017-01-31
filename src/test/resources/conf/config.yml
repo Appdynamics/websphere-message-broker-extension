@@ -1,4 +1,4 @@
-﻿#This will create this metric in all the tiers, under this path
+#This will create this metric in all the tiers, under this path
 #metricPrefix: Custom Metrics|WMB
 
 #This will create it in specific Tier/Component. Make sure to replace <COMPONENT_ID> with the appropriate one from your environment.
@@ -29,9 +29,72 @@ queueManagers:
     metrics:
       resourceStatistics:
         - name: "$SYS/Broker/+/ResourceStatistics/#"
-          subscriberName: "allResources"
+          subscriberName: "allResourceStatistics"
+      flowStatistics:
+        - name: "$SYS/Broker/+/StatisticsAccounting/SnapShot/#/#"
+          subscriberName: "allFlowStatistics"
 
+    flowMetricFields:
+      messageFlowFields:
+        - TotalElapsedTime
+        - MaximumElapsedTime
+        - MinimumElapsedTime
+        - TotalCPUTime
+        - MaximumCPUTime
+        - MinimumCPUTime
+        - CPUTimeWaitingForInputMessage
+        - ElapsedTimeWaitingForInputMessage
+        - TotalInputMessages
+        - TotalSizeOfInputMessages
+        - MaximumSizeOfInputMessages
+        - MinimumSizeOfInputMessages
+        - NumberOfThreadsInPool
+        - TimesMaximumNumberofThreadsReached
+        - TotalNumberOfMQErrors
+        - TotalNumberOfMessagesWithErrors
+        - TotalNumberOfErrorsProcessingMessages
+        - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages
+        - TotalNumberOfCommits
+        - TotalNumberOfBackouts
+      threadFields: 
+        - Number
+        - TotalNumberOfInputMessages
+        - TotalElapsedTime
+        - TotalCPUTime
+        - CPUTimeWaitingForInputMessage
+        - ElapsedTimeWaitingForInputMessage
+        - TotalSizeOfInputMessages
+        - MaximumSizeOfInputMessages
+        - MinimumSizeOfInputMessages
+      nodeFields:
+        - TotalElapsedTime
+        - MaximumElapsedTime
+        - MinimumElapsedTime
+        - TotalCPUTime
+        - MaximumCPUTime
+        - MinimumCPUTime
+        - CountOfInvocations
+        - NumberOfInputTerminals
+        - NumberOfOutputTerminals
+      terminalFields:
+        - CountOfInvocations
 
-numberOfThreads : 10
+    derivedFlowMetricFields:
+      messageFlowFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageCPUTimeWaitingForInputMessage
+        - AverageElapsedTimeWaitingForInputMessage
+        - AverageSizeOfInputMessages
+      threadFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageCPUTimeWaitingForInputMessage
+        - AverageElapsedTimeWaitingForInputMessage
+        - AverageSizeOfInputMessages
+      nodeFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageSizeOfInputMessages
 
-
+numberOfThreads: 10

@@ -2,8 +2,9 @@ package com.appdynamics.extensions.wmb;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.resourcestats.ResourceStatProcessor;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
+import com.appdynamics.extensions.wmb.flowstats.FlowStatistics;
+import com.appdynamics.extensions.wmb.resourcestats.ResourceStatistics;
+
 import org.slf4j.LoggerFactory;
 
 import javax.jms.Connection;
@@ -38,8 +39,9 @@ class WMBMonitorTask implements Runnable{
             Connection conn = new ConnectionFactory().createConnection(queueManagerConfig);
             ParserFactory parserFactory = new ParserFactory();
             XmlParser<ResourceStatistics> resourceStatParser = parserFactory.getResourceStatisticsParser();
+            XmlParser<FlowStatistics> flowStatParser = parserFactory.getFlowStatisticsParser();
             //subscribe subscribers
-            ResourceStatProcessor processor = new ResourceStatProcessor(queueManagerConfig,resourceStatParser,metricPrinter);
+            StatsProcessor processor = new StatsProcessor(queueManagerConfig, resourceStatParser, flowStatParser, metricPrinter);
             processor.subscribe(conn);
             //start connection
             conn.start();

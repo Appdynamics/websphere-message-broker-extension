@@ -29,11 +29,81 @@ queueManagers:
 
     #This extension extracts resource statistics as listed
     #http://www.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bn43250_.htm
-    #Please make sure to provide unique subscriber name for each resourcestatistic.
+    #Please make sure to provide unique subscriber name for each statistic subscription.
     metrics:
       resourceStatistics:
         - name: "$SYS/Broker/+/ResourceStatistics/#"
-          subscriberName: "allResources"
+          subscriberName: "allResourceStatistics"
+      flowStatistics:
+        - name: "$SYS/Broker/+/StatisticsAccounting/SnapShot/#/#"
+          subscriberName: "allFlowStatistics"
 
+    #For flow metrics, all the fields listed in this section will be reported as metrics.
+    #Remove fields you don't need to reduce the number of metrics.
+    #Available fields:
+    #https://www.ibm.com/support/knowledgecenter/en/SSMKHH_10.0.0/com.ibm.etools.mft.doc/ac19020_.htm
+    flowMetricFields:
+      messageFlowFields:
+        - TotalElapsedTime
+        - MaximumElapsedTime
+        - MinimumElapsedTime
+        - TotalCPUTime
+        - MaximumCPUTime
+        - MinimumCPUTime
+        - CPUTimeWaitingForInputMessage
+        - ElapsedTimeWaitingForInputMessage
+        - TotalInputMessages
+        - TotalSizeOfInputMessages
+        - MaximumSizeOfInputMessages
+        - MinimumSizeOfInputMessages
+        - NumberOfThreadsInPool
+        - TimesMaximumNumberofThreadsReached
+        - TotalNumberOfMQErrors
+        - TotalNumberOfMessagesWithErrors
+        - TotalNumberOfErrorsProcessingMessages
+        - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages
+        - TotalNumberOfCommits
+        - TotalNumberOfBackouts
+      threadFields: 
+        - Number
+        - TotalNumberOfInputMessages
+        - TotalElapsedTime
+        - TotalCPUTime
+        - CPUTimeWaitingForInputMessage
+        - ElapsedTimeWaitingForInputMessage
+        - TotalSizeOfInputMessages
+        - MaximumSizeOfInputMessages
+        - MinimumSizeOfInputMessages
+      nodeFields:
+        - TotalElapsedTime
+        - MaximumElapsedTime
+        - MinimumElapsedTime
+        - TotalCPUTime
+        - MaximumCPUTime
+        - MinimumCPUTime
+        - CountOfInvocations
+        - NumberOfInputTerminals
+        - NumberOfOutputTerminals
+      terminalFields:
+        - CountOfInvocations
+    
+    #Some derived fields are available for flow metrics.
+    derivedFlowMetricFields:
+      messageFlowFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageCPUTimeWaitingForInputMessage
+        - AverageElapsedTimeWaitingForInputMessage
+        - AverageSizeOfInputMessages
+      threadFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageCPUTimeWaitingForInputMessage
+        - AverageElapsedTimeWaitingForInputMessage
+        - AverageSizeOfInputMessages
+      nodeFields:
+        - AverageElapsedTime
+        - AverageCPUTime
+        - AverageSizeOfInputMessages
 
 numberOfThreads: 10

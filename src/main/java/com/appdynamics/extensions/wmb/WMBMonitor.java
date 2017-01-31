@@ -64,7 +64,7 @@ public class WMBMonitor extends AManagedMonitor{
                 logger.error("There are no queue managers configured");
             }
         } else {
-            logger.error("The config.yml is not loaded due to previous errors.The task will not run");
+            logger.error("The config.yml is not loaded due to previous errors. The task will not run");
         }
         initialized = true;
     }
