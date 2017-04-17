@@ -6,14 +6,14 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>ibm-websphere-msg-broker-extension</artifactId>
-    <version>3.0.1</version>
+    <version>4.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <target.dir>${project.build.directory}/WMBMonitor</target.dir>
-        <lib.dir>${basedir}/lib</lib.dir>
-        <ibm.mq.lib.version>7.5.2</ibm.mq.lib.version>
+        <lib.dir>${basedir}/lib_7503</lib.dir>
+        <ibm.mq.lib.version>7.5.0.3</ibm.mq.lib.version>
     </properties>
 
     <dependencies>

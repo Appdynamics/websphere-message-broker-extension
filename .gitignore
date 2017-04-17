@@ -9,3 +9,4 @@ target
 .idea
 .DS_Store
 src/lib/*.jar
+lib*/*
