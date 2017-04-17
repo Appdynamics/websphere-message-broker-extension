@@ -43,19 +43,12 @@ class WMBMonitorTask implements Runnable{
             processor.subscribe(conn);
             //start connection
             conn.start();
-            logger.info("Connection started. Wait Indefinitely.");
-            //wait indefinitely
-            Object obj = new Object();
-            synchronized (obj) {
-                obj.wait();
-            }
+
         } catch (JMSException e) {
             logger.error("Unable to connect to the queue manager with name={}",displayName,e);
         } catch (JAXBException e) {
             logger.error("Couldn't initialize the parser",e);
-        } catch (InterruptedException e) {
-            logger.error("Indefinite wait is interrupted..",e);
-        } catch (Exception e){
+        }  catch (Exception e){
             logger.error("Something unforeseen has happened..",e);
         }
     }

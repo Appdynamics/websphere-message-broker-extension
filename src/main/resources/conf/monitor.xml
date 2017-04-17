@@ -1,24 +1,21 @@
     <monitor>
         <name>WMBMonitor</name>
         <type>managed</type>
-        <description>Websphere Message Broker monitor</description>
+        <description>Monitors Websphere Message Broker resource statistics</description>
         <monitor-configuration></monitor-configuration>
         <monitor-run-task>
-                <execution-style>periodic</execution-style>
-                <execution-frequency-in-seconds>60</execution-frequency-in-seconds>
+                <execution-style>continuous</execution-style>
                 <name>Websphere Message Broker Monitor Run Task</name>
                 <display-name>Websphere Message Broker Monitor Task</display-name>
                 <description>Websphere Message Broker Monitor Task</description>
-                <type>java</type>
+                <type>executable</type>
                 <execution-timeout-in-secs>60</execution-timeout-in-secs>
                 <task-arguments>
-                    <!-- config file-->
-                    <argument name="config-file" is-required="true" default-value="monitors/WMBMonitor/config.yml" />
                 </task-arguments>
-                <java-task>
-                        <load-jars-in-classpath-dirs>true</load-jars-in-classpath-dirs>
-                        <classpath>ibm-websphere-msg-broker-extension.jar;lib</classpath>
-                        <impl-class>com.appdynamics.extensions.wmb.WMBMonitor</impl-class>
-                </java-task>
+                <executable-task>
+                        <type>file</type>
+                        <file os-type="linux">appd-message-broker-monitor.sh</file>
+                        <file os-type="windows">appd-message-broker-monitor.bat</file>
+                </executable-task>
         </monitor-run-task>
 </monitor>
