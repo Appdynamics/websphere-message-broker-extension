@@ -10,3 +10,4 @@ target
 .DS_Store
 src/lib/*.jar
 lib*/*
+lib_7503/*.jar
