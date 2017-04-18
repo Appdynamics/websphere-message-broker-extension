@@ -32,7 +32,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.4</version>
-            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.9</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -118,6 +127,7 @@
                                     <manifestEntries>
                                         <Main-Class>com.appdynamics.extensions.wmb.WMBMonitor</Main-Class>
                                         <Implementation-Title>IBM WebSphere Msg Broker Monitor v${project.version} Build Date ${maven.build.timestamp}</Implementation-Title>
+                                        <Class-Path>.</Class-Path>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
