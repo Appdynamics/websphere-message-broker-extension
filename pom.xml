@@ -127,7 +127,6 @@
                                     <manifestEntries>
                                         <Main-Class>com.appdynamics.extensions.wmb.WMBMonitor</Main-Class>
                                         <Implementation-Title>IBM WebSphere Msg Broker Monitor v${project.version} Build Date ${maven.build.timestamp}</Implementation-Title>
-                                        <Class-Path>.</Class-Path>
                                     </manifestEntries>
                                 </transformer>
                             </transformers>
