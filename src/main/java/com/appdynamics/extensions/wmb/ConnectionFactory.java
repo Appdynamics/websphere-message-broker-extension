@@ -29,17 +29,17 @@ class ConnectionFactory {
         else{
             cf.setTransportType(WMQConstants.WMQ_CM_BINDINGS);
         }
-        if(queueManagerConfig.get("name") != null && queueManagerConfig.get("name") != ""){
+        if(queueManagerConfig.get("name") != null && !queueManagerConfig.get("name").equals("")){
             cf.setQueueManager(convertToString(queueManagerConfig.get("name"),""));
         }
 
-        if(queueManagerConfig.get("channelName") != null && queueManagerConfig.get("channelName") != ""){
+        if(queueManagerConfig.get("channelName") != null && !queueManagerConfig.get("channelName").equals("")){
             cf.setChannel(convertToString(queueManagerConfig.get("channelName"),""));
         }
-        if(queueManagerConfig.get("sslKeyRepository") != null && queueManagerConfig.get("sslKeyRepository") != ""){
+        if(queueManagerConfig.get("sslKeyRepository") != null && !queueManagerConfig.get("sslKeyRepository").equals("")){
             cf.setSSLCertStores(convertToString(queueManagerConfig.get("sslKeyRepository"),""));
         }
-        if(queueManagerConfig.get("cipherSuite") != null && queueManagerConfig.get("cipherSuite") != ""){
+        if(queueManagerConfig.get("cipherSuite") != null && !queueManagerConfig.get("cipherSuite").equals("")){
             cf.setSSLCipherSuite(convertToString(queueManagerConfig.get("cipherSuite"),""));
         }
 

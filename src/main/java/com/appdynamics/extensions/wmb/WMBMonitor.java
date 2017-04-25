@@ -51,7 +51,7 @@ public class WMBMonitor extends AManagedMonitor{
     private void initialize(Map<String, String> taskArgs) {
         //read the config.
         final String configFilePath = taskArgs.get(CONFIG_ARG);
-        MetricWriteHelper metricWriteHelper = MetricWriteHelperFactory.create(this);
+        MetricWriteHelper metricWriteHelper = new CustomMetricWriter();
         MonitorConfiguration conf = new MonitorConfiguration(METRIC_PREFIX, new TaskRunnable(), metricWriteHelper);
         conf.setConfigYml(configFilePath);
         conf.checkIfInitialized(MonitorConfiguration.ConfItem.CONFIG_YML, MonitorConfiguration.ConfItem.EXECUTOR_SERVICE,
