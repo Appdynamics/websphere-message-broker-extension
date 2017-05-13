@@ -1,9 +1,7 @@
-package com.appdynamics.extensions.wmb;
+package com.appdynamics.extensions.wmb.metrics;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.metrics.Metric;
-import com.appdynamics.extensions.wmb.metrics.MetricProperties;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import org.slf4j.LoggerFactory;

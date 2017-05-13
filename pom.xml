@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>websphere-message-broker-extension</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -153,7 +153,13 @@
                                     <fileset dir="src/main/resources/conf" includes="log4j.dtd"/>
                                     <fileset dir="src/main/resources/" includes="appd-message-broker-monitor.sh"/>
                                     <fileset dir="src/main/resources/" includes="appd-message-broker-monitor.bat"/>
+                                    <fileset dir="src/main/resources/" includes="process_checker.bat" />
+                                    <fileset dir="src/main/resources/" includes="process_checker.sh"/>
                                 </copy>
+                                <chmod file="${target.dir}/appd-message-broker-monitor.sh" perm="777"/>
+                                <chmod file="${target.dir}/appd-message-broker-monitor.bat" perm="777"/>
+                                <chmod file="${target.dir}/process_checker.sh" perm="777"/>
+                                <chmod file="${target.dir}/process_checker.bat" perm="777"/>
                                 <copy todir="${target.dir}">
                                     <fileset dir="${build.directory}" includes="${project.artifactId}.${project.packaging}"/>
                                 </copy>

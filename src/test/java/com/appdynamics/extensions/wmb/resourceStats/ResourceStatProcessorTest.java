@@ -2,17 +2,12 @@ package com.appdynamics.extensions.wmb.resourceStats;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.MetricPrinter;
+import com.appdynamics.extensions.wmb.metrics.MetricPrinter;
 import com.appdynamics.extensions.wmb.ParserFactory;
-import com.appdynamics.extensions.wmb.XmlParser;
 import com.appdynamics.extensions.wmb.resourcestats.ResourceStatProcessor;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceIdentifier;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceType;
 import com.appdynamics.extensions.yml.YmlReader;
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.singularity.ee.agent.systemagent.api.MetricWriter;
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -20,7 +15,6 @@ import org.mockito.ArgumentCaptor;
 import javax.jms.JMSException;
 import javax.jms.TextMessage;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Unmarshaller;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;

@@ -2,6 +2,7 @@ package com.appdynamics.extensions.wmb;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
+import com.appdynamics.extensions.wmb.metrics.MetricPrinter;
 import com.appdynamics.extensions.wmb.resourcestats.ResourceStatProcessor;
 import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
 import org.slf4j.LoggerFactory;

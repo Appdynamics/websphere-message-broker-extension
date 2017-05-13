@@ -1,9 +1,10 @@
 package com.appdynamics.extensions.wmb;
 
 
+import com.appdynamics.extensions.PathResolver;
 import com.appdynamics.extensions.conf.MonitorConfiguration;
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.util.MetricWriteHelperFactory;
+import com.appdynamics.extensions.wmb.metrics.CustomMetricWriter;
 import com.google.common.collect.Maps;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
@@ -13,14 +14,21 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class WMBMonitor extends AManagedMonitor{
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(WMBMonitor.class);
     private static final String CONFIG_ARG = "config-file";
     private static final String METRIC_PREFIX = "Custom Metrics|WMB";
-
+    private static final String MA_PID = "MA-PID";
+    private static ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    private static CountDownLatch sharedLatch = new CountDownLatch(1);
     private MonitorConfiguration configuration;
+
 
     public WMBMonitor(){
         System.out.println(logVersion());
@@ -41,10 +49,12 @@ public class WMBMonitor extends AManagedMonitor{
             } else {
                 logger.error("There are no queue managers configured");
             }
+            Map watchDogProperties = (Map)config.get("machineAgentWatchDog");
+            scheduler.scheduleAtFixedRate(new ProcessWatchDog(taskArgs.get(MA_PID), sharedLatch, PathResolver.resolveDirectory(this.getClass())), ((Integer)watchDogProperties.get("initialDelay")).longValue(),((Integer)watchDogProperties.get("period")).longValue(), TimeUnit.SECONDS);
         } else {
             logger.error("The config.yml is not loaded due to previous errors.The task will not run");
         }
-        logger.info("Connection started. Wait Indefinitely...");
+
         return new TaskOutput("WMB monitor run completed successfully.");
     }
 
@@ -85,24 +95,34 @@ public class WMBMonitor extends AManagedMonitor{
 
 
     public static void main(String[] args){
+        if (args == null || args.length == 0) {
+            logger.error("MA PID was not passed as an argument to WMBMonitor.");
+            return;
+        }
+        if(args.length > 1){
+            logger.error("Incorrect number of arguments were passed to WMBMonitor.");
+            return;
+        }
+        logger.info("MA pid = {}",args[0]);
         final WMBMonitor wmbMonitor = new WMBMonitor();
         String configFile = System.getProperty("extension.configuration");
         Map<String,String> taskArgs = Maps.newHashMap();
         taskArgs.put(CONFIG_ARG,configFile);
+        taskArgs.put(MA_PID,args[0]);
         try {
             wmbMonitor.execute(taskArgs,null);
-        } catch (TaskExecutionException e) {
-            logger.error("Error in execution of main",e);
+            logger.info("Connection started. Wait Indefinitely...");
+            sharedLatch.await();
+            logger.info("My parent has died. I have to die as well.");
+            System.exit(0);
         }
-        //wait indefinitely
-        try{
-            Object obj = new Object();
-            synchronized (obj) {
-                obj.wait();
+        catch(Exception e){
+            logger.error("Error in execution",e);
+        }
+        finally{
+            if(scheduler != null){
+                scheduler.shutdown();
             }
-        }
-        catch (InterruptedException e) {
-            logger.error("Indefinite wait is interrupted..",e);
         }
     }
 

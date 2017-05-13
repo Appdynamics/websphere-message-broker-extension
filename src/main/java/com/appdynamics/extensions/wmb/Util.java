@@ -20,4 +20,14 @@ public class Util {
     public static String toBigIntString(final BigDecimal bigD) {
         return bigD.setScale(0, RoundingMode.HALF_UP).toBigInteger().toString();
     }
+
+    static final String WINDOWS = "windows";
+
+    public static boolean isWindows() {
+        String os = System.getProperty("os.name");
+        if (os != null && os.toLowerCase().indexOf(WINDOWS) >= 0) {
+            return true;
+        }
+        return false;
+    }
 }

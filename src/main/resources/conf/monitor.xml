@@ -14,6 +14,7 @@
                 </task-arguments>
                 <executable-task>
                         <type>file</type>
+                        <file os-type="mac">appd-message-broker-monitor.sh</file>
                         <file os-type="linux">appd-message-broker-monitor.sh</file>
                         <file os-type="windows">appd-message-broker-monitor.bat</file>
                 </executable-task>

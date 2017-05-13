@@ -36,4 +36,12 @@ queueManagers:
           subscriberName: "allResources"
 
 
+#Don't change this unless you are having more than 10 queue managers to monitor.
 numberOfThreads: 10
+
+#Don't change this.
+machineAgentWatchDog:
+  #In seconds
+  initialDelay: 0
+  #Check the existence of MA process in 'period' seconds.
+  period: 5

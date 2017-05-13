@@ -1,6 +1,6 @@
 package com.appdynamics.extensions.wmb.resourcestats;
 
-import com.appdynamics.extensions.wmb.MetricPrinter;
+import com.appdynamics.extensions.wmb.metrics.MetricPrinter;
 import com.appdynamics.extensions.wmb.XmlParser;
 import com.appdynamics.extensions.wmb.metrics.DefaultMetricProperties;
 import com.appdynamics.extensions.wmb.metrics.Metric;
