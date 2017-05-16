@@ -36,7 +36,7 @@ class ProcessWatchDog implements Runnable{
             return new String[]{PathResolver.getFile("process_checker.bat",installDir).getPath(),pid};
         }
         else{
-            return new String[] {PathResolver.getFile("process_checker.sh",installDir).getPath(),pid};
+            return new String[] {PathResolver.getFile("./process_checker.sh",installDir).getPath(),pid};
         }
     }
 }

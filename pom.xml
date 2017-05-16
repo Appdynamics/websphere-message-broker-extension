@@ -6,16 +6,39 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>websphere-message-broker-extension</artifactId>
-    <version>4.2.0</version>
+    <version>4.3.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.build.timestamp.format>yyyy-MM-dd HH:mm:ss</maven.build.timestamp.format>
         <target.dir>${project.build.directory}/WMBMonitor</target.dir>
-        <lib.dir>${basedir}/lib_7503</lib.dir>
+        <lib.dir>${basedir}/lib</lib.dir>
         <ibm.mq.lib.version>7.5.0.3</ibm.mq.lib.version>
     </properties>
-
+    <profiles>
+        <profile>
+            <id>mq7.5</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>jms</groupId>
+                    <artifactId>jms</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/jms.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>com.ibm.mqjms</groupId>
+                    <artifactId>com.ibm.mqjms</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/com.ibm.mqjms.jar</systemPath>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
     <dependencies>
         <dependency>
             <groupId>com.appdynamics</groupId>
@@ -59,20 +82,6 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>2.2.7</version>
-        </dependency>
-        <dependency>
-            <groupId>jms</groupId>
-            <artifactId>jms</artifactId>
-            <scope>system</scope>
-            <version>${ibm.mq.lib.version}</version>
-            <systemPath>${lib.dir}/jms.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>com.ibm.mqjms</groupId>
-            <artifactId>com.ibm.mqjms</artifactId>
-            <scope>system</scope>
-            <version>${ibm.mq.lib.version}</version>
-            <systemPath>${lib.dir}/com.ibm.mqjms.jar</systemPath>
         </dependency>
     </dependencies>
     <build>
@@ -125,7 +134,6 @@
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <manifestEntries>
-                                        <Main-Class>com.appdynamics.extensions.wmb.WMBMonitor</Main-Class>
                                         <Implementation-Title>IBM WebSphere Msg Broker Monitor v${project.version} Build Date ${maven.build.timestamp}</Implementation-Title>
                                     </manifestEntries>
                                 </transformer>
