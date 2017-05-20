@@ -1,0 +1,7 @@
+<ResourceStatistics brokerLabel="IB9NODE" brokerUUID="bd7a7cb0-ee9e-4db2-bb8f-70efadfdd394" executionGroupName="default" executionGroupUUID="0dcc2c6f-4701-0000-0080-be89ea638f7f" collectionStartDate="2014-07-25" collectionStartTime="13:18:37" startDate="2014-07-29" startTime="18:04:49" endDate="2014-07-29" endTime="18:05:09" timezone="America/Los_Angeles">
+
+    <ResourceType name="JDBCConnectionPools">
+        <resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="1750" CumulativeTimedOutRequests="1000000" MaxDelayInMilliseconds="0" />
+    </ResourceType>
+
+</ResourceStatistics>

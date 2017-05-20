@@ -21,7 +21,7 @@
 <resourceIdentifier name="summary" InboundTransfers="0" InboundBytes="0" NoHitTransfers="0" OutboundTransfers="0" OutboundBytes="0"/> 
 </ResourceType> 
 <ResourceType name="JDBCConnectionPools"> 
-<resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="0" CumulativeTimedOutRequests="0" MaxDelayInMilliseconds="0"/> 
+<resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="250" CumulativeTimedOutRequests="0" MaxDelayInMilliseconds="0"/>
 </ResourceType> 
 <ResourceType name="ODBC"> 
 <resourceIdentifier name="summary" ExecuteSuccess="12" ExecuteFailure="0" ActiveConnections="0" ClosedConnections="11" ConnectionErrors="0"/> 

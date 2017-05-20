@@ -49,7 +49,7 @@
         <resourceIdentifier name="summary" OutboundInvocations="0" OutboundSuccessfulInvocations="0" OutboundCorbaExceptions="0" />
     </ResourceType>
     <ResourceType name="JDBCConnectionPools">
-        <resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="0" CumulativeTimedOutRequests="0" MaxDelayInMilliseconds="0" />
+        <resourceIdentifier name="summary" NameOfJDBCProvider="none" MaxSizeOfPool="0" ActualSizeOfPool="0" CumulativeRequests="0" CumulativeDelayedRequests="1000" CumulativeTimedOutRequests="1000000" MaxDelayInMilliseconds="0" />
     </ResourceType>
     <ResourceType name="DecisionServices">
         <resourceIdentifier name="summary" SuccessfulDecisions="0" FailedDecisions="0" RulesMatched="0" />

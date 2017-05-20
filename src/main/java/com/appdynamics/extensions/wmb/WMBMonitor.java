@@ -4,7 +4,7 @@ package com.appdynamics.extensions.wmb;
 import com.appdynamics.extensions.PathResolver;
 import com.appdynamics.extensions.conf.MonitorConfiguration;
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.metrics.CustomMetricWriter;
+import com.appdynamics.extensions.wmb.metricUtils.CustomMetricWriter;
 import com.google.common.collect.Maps;
 import com.singularity.ee.agent.systemagent.api.AManagedMonitor;
 import com.singularity.ee.agent.systemagent.api.TaskExecutionContext;
@@ -50,9 +50,13 @@ public class WMBMonitor extends AManagedMonitor{
                 logger.error("There are no queue managers configured");
             }
             Map watchDogProperties = (Map)config.get("machineAgentWatchDog");
+            /*
+             * This extension works in continuous mode and starts a JVM by invoking a script. When the MA dies, the extension becomes
+             * an orphanned process. To better manage the extension, we watch the MA process using MA PID passed through the script.
+             */
             scheduler.scheduleAtFixedRate(new ProcessWatchDog(taskArgs.get(MA_PID), sharedLatch, PathResolver.resolveDirectory(this.getClass())), ((Integer)watchDogProperties.get("initialDelay")).longValue(),((Integer)watchDogProperties.get("period")).longValue(), TimeUnit.SECONDS);
         } else {
-            logger.error("The config.yml is not loaded due to previous errors.The task will not run");
+            logger.error("The config.yml is not loaded due to previous errors. The task will not run");
         }
 
         return new TaskOutput("WMB monitor run completed successfully.");

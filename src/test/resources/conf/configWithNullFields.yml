@@ -1,0 +1,69 @@
+#This will create this metric in all the tiers, under this path
+#metricPrefix: Custom Metrics|WMB
+
+#This will create it in specific Tier/Component. Make sure to replace <COMPONENT_ID> with the appropriate one from your environment.
+#To find the <COMPONENT_ID> in your environment, please follow the screenshot https://docs.appdynamics.com/display/PRO42/Build+a+Monitoring+Extension+Using+Java
+metricPrefix: Server|Component:<COMPONENT_ID>|Custom Metrics|WMB
+
+queueManagers:
+  - host: "localhost"
+    port: 2414
+    #Actual name of the queue manager
+    name: "QMgr1"
+    #Channel name of the queue manager, channel should be server-conn type.Make sure the channel is active.
+    channelName: "SYSTEM.ADMIN.SVRCONN"
+    transportType: "Bindings"
+    #user with admin level access. In case of Windows, please provide the admin Window's credentials.
+    userID: ""
+    password: ""
+    #SSL related properties
+    # e.g."C:/Program Files (x86)/IBM/WebSphere MQ/ssl/key" , Please use forward slash in the path.
+    sslKeyRepository: ""
+    # e.g. "SSL_RSA_WITH_AES_128_CBC_SHA256"
+    cipherSuite: ""
+    clientID: "wmb_appd_ext"
+
+    #This extension extracts resource statistics as listed
+    #http://www.ibm.com/support/knowledgecenter/SSMKHH_10.0.0/com.ibm.etools.mft.doc/bn43250_.htm
+    #Please make sure to provide unique subscriber name for each resourceStatistic.
+    metrics:
+      resourceStatistics:
+        - name: "$SYS/Broker/+/ResourceStatistics/#"
+          subscriberName: "allResourceStatistics"
+      flowStatistics:
+        - name: "$SYS/Broker/+/StatisticsAccounting/SnapShot/#/#"
+          subscriberName: "allFlowStatistics"
+
+    flowMetricFields:
+      messageFlowFields:
+        - TotalElapsedTime
+        - MaximumElapsedTime
+        - MinimumElapsedTime
+        - TotalCPUTime
+        - MaximumCPUTime
+        - MinimumCPUTime
+        - CPUTimeWaitingForInputMessage
+        - ElapsedTimeWaitingForInputMessage
+        - TotalInputMessages
+        - TotalSizeOfInputMessages
+        - MaximumSizeOfInputMessages
+        - MinimumSizeOfInputMessages
+        - NumberOfThreadsInPool
+        - TimesMaximumNumberofThreadsReached
+        - TotalNumberOfMQErrors
+        - TotalNumberOfMessagesWithErrors
+        - TotalNumberOfErrorsProcessingMessages
+        - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages
+        - TotalNumberOfCommits
+        - TotalNumberOfBackouts
+      threadFields:
+      nodeFields:
+      terminalFields:
+
+    #Some derived fields are available for flow metricUtils.
+    derivedFlowMetricFields:
+      messageFlowFields:
+      threadFields:
+      nodeFields:
+
+numberOfThreads: 10

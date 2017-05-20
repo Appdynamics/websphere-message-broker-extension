@@ -7,6 +7,9 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * Given a PID, watch if the PID process is still running
+ */
 class ProcessWatchDog implements Runnable{
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ProcessWatchDog.class);
@@ -27,6 +30,7 @@ class ProcessWatchDog implements Runnable{
         String output = processExecutor.execute(command).trim();
         isProcessRunning = pid.equals(output);
         if(!isProcessRunning){
+            logger.debug("The process with PID {} is no longer running.", pid);
             countDownLatch.countDown();
         }
     }

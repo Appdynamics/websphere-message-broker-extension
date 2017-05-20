@@ -11,6 +11,9 @@ import java.util.Map;
 
 import static com.appdynamics.extensions.wmb.Util.convertToString;
 
+/**
+ * ConnectionFactory to connect to the QM.
+ */
 class ConnectionFactory {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
@@ -48,7 +51,7 @@ class ConnectionFactory {
         String password=convertToString(queueManagerConfig.get("password"),"");
         connection = cf.createConnection(userId,password);
         connection.setClientID(convertToString(queueManagerConfig.get("clientID"),""));
-        logger.info("Connection is successful..");
+        logger.info("Connection to QM {} is successful..",convertToString(queueManagerConfig.get("name"),""));
         return connection;
     }
 }

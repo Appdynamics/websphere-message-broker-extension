@@ -2,9 +2,7 @@ package com.appdynamics.extensions.wmb;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.metrics.MetricPrinter;
-import com.appdynamics.extensions.wmb.resourcestats.ResourceStatProcessor;
-import com.appdynamics.extensions.wmb.resourcestats.xml.ResourceStatistics;
+import com.appdynamics.extensions.wmb.metricUtils.MetricPrinter;
 import org.slf4j.LoggerFactory;
 
 import javax.jms.Connection;
@@ -23,7 +21,7 @@ class WMBMonitorTask implements Runnable{
     /* metric prefix from the config.yaml to be applied to each metric path*/
     private String metricPrefix;
 
-    /* a facade to report metrics to the machine agent.*/
+    /* a facade to report metricUtils to the machine agent.*/
     private MetricWriteHelper metricWriter;
 
     private Map queueManagerConfig;
@@ -33,15 +31,13 @@ class WMBMonitorTask implements Runnable{
 
     public void run() {
         try {
-            logger.info("Executing a run of WMBMonitor...");
+            logger.info("Executing a run of WMBMonitor.");
             displayName = convertToString(queueManagerConfig.get("name"),"");
             MetricPrinter metricPrinter = new MetricPrinter(metricPrefix,displayName,metricWriter);
             Connection conn = new ConnectionFactory().createConnection(queueManagerConfig);
-            ParserFactory parserFactory = new ParserFactory();
-            XmlParser<ResourceStatistics> resourceStatParser = parserFactory.getResourceStatisticsParser();
             //subscribe subscribers
-            ResourceStatProcessor processor = new ResourceStatProcessor(queueManagerConfig,resourceStatParser,metricPrinter);
-            processor.subscribe(conn);
+            StatsSubscription sub = new StatsSubscription(queueManagerConfig,metricPrinter);
+            sub.subscribe(conn);
             //start connection
             conn.start();
 

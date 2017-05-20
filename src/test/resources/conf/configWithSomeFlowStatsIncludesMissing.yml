@@ -117,14 +117,14 @@ queueManagers:
             - BytesReceived: "BytesReceived"  #The total amount of data received (by TCPIPClientInput or TCPIPClientReceive nodes),  excluding SSL wrappers.
             - FailedConnections : "FailedConnections"  #The total number of attempted connections that failed since the last integration server restarts.
 
-
       flowStatistics:
         - type: "MessageFlow"
           identifiers: [""]
           include:
             - TotalElapsedTime : "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
+              multiplier: 0.001
             - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time that is spent processing an input message (microseconds)
-            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time that is spent processing an input message (microseconds)
+            - MinimumElapsedTime : "Minimum CPU Time"  #Minimum elapsed time that is spent processing an input message (microseconds)
             - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
             - MaximumCPUTime : "MaximumCPUTime" #Maximum processor time that is spent processing an input message (microseconds)
             - MinimumCPUTime : "MinimumCPUTime" #Minimum processor time that is spent processing an input message (microseconds)
@@ -137,6 +137,7 @@ queueManagers:
             - NumberOfThreadsInPool : "NumberOfThreadsInPool"  #Number of threads in pool
             - TimesMaximumNumberofThreadsReached : "TimesMaximumNumberofThreadsReached"  #Number of times the maximum number of threads is reached
             - TotalNumberOfMQErrors : "TotalNumberOfMQErrors"   #Number of MQGET errors (MQInput node) or web services errors (HTTPInput node). For example, a conversion error occurs when the message is got from the queue.
+              delta: true
             - TotalNumberOfMessagesWithErrors : "TotalNumberOfMessagesWithErrors"       #Number of messages that contain errors
             - TotalNumberOfErrorsProcessingMessages : "TotalNumberOfErrorsProcessingMessages"   #Number of errors when processing a message
             - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages : "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"  #Number of timeouts when processing a message (AggregateReply node only)
@@ -145,28 +146,17 @@ queueManagers:
 
         - type: "Threads"
           identifiers: ["ThreadStatistics"]
-          include:
-            - TotalNumberOfInputMessages : "TotalNumberOfInputMessages"  #Total number of messages that are processed by a thread
-            - TotalElapsedTime: "TotalElapsedTime" #Total elapsed time spent processing input messages (microseconds)
-            - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
-            - CPUTimeWaitingForInputMessage : "CPUTimeWaitingForInputMessage"  #Total processor time spent waiting for input messages (microseconds)
-            - ElapsedTimeWaitingForInputMessage : "ElapsedTimeWaitingForInputMessage" #Total elapsed time that is spent waiting for input messages (microseconds)
-            - TotalSizeOfInputMessages : "TotalSizeOfInputMessages"    #Total size of input messages (bytes)
-            - MaximumSizeOfInputMessages : "MaximumSizeOfInputMessages"    #Maximum size of input messages (bytes)
-            - MinimumSizeOfInputMessages : "MinimumSizeOfInputMessages"  #Minimum size of input messages (bytes)
 
         - type: "Nodes"
           identifiers: ["NodeStatistics"]
           include:
-            - TotalElapsedTime: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
-            - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time spent processing input messages (microseconds)
-            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time spent processing input messages (microseconds)
-            - TotalCPUTime : "TotalCPUTime"  #Total processor time spent processing input messages (microseconds)
-            - MaximumCPUTime : "MaximumCPUTime"  #Maximum processor time spent processing input messages (microseconds)
-            - MinimumCPUTime : "MinimumCPUTime"  #Minimum processor time spent processing input messages (microseconds)
-            - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
-            - NumberOfInputTerminals: "NumberOfInputTerminals"    #Number of input terminals
-            - NumberOfOutputTerminals : "NumberOfOutputTerminals"  #Number of output terminals
+            - Type: "Type"
+              convert: {
+                "WSInputNode" : "1",
+                "WSReplyNode" : "2",
+                "MSLMappingNode" : "3",
+                "$default" : "4"
+              }
 
         - type: "Nodes"
           identifiers: ["NodeStatistics|TerminalStatistics"]
@@ -180,6 +170,7 @@ queueManagers:
           include:
             - AverageElapsedTime : "AverageElapsedTime"
             - AverageCPUTime: "AverageCPUTime"
+              metricType: "OBSERVATION CURRENT INDIVIDUAL"
             - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
             - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
 

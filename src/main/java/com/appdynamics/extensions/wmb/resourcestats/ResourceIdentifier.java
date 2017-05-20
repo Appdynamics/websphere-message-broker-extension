@@ -1,4 +1,4 @@
-package com.appdynamics.extensions.wmb.resourcestats.xml;
+package com.appdynamics.extensions.wmb.resourcestats;
 
 
 import javax.xml.bind.annotation.XmlAccessType;

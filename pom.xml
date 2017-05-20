@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>websphere-message-broker-extension</artifactId>
-    <version>4.3.0</version>
+    <version>5.0.0</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -38,6 +38,46 @@
                 </dependency>
             </dependencies>
         </profile>
+        <!--<profile>
+            <id>mq8</id>
+            <dependencies>
+                <dependency>
+                    <groupId>com.ibm.mq.allclient</groupId>
+                    <artifactId>com.ibm.mq.allclient</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/com.ibm.mq.allclient.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>com.ibm.mq.traceControl</groupId>
+                    <artifactId>com.ibm.mq.traceControl</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/com.ibm.mq.traceControl.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>jms</groupId>
+                    <artifactId>jms</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/jms.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>providerutil</groupId>
+                    <artifactId>providerutil</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/providerutil.jar</systemPath>
+                </dependency>
+                <dependency>
+                    <groupId>fscontext</groupId>
+                    <artifactId>fscontext</artifactId>
+                    <scope>system</scope>
+                    <version>${ibm.mq.lib.version}</version>
+                    <systemPath>${lib.dir}/fscontext.jar</systemPath>
+                </dependency>
+            </dependencies>
+        </profile>-->
     </profiles>
     <dependencies>
         <dependency>

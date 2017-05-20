@@ -1,4 +1,4 @@
-package com.appdynamics.extensions.wmb.metrics;
+package com.appdynamics.extensions.wmb.metricUtils;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;
@@ -34,10 +34,10 @@ public class MetricPrinter {
         }
         for(Metric metric : metrics){
             MetricProperties props = metric.getProperties();
-            String fullMetricPath = formMetricPath(metric.getMetricKey());
+            String fullMetricPath = formMetricPath(metric.getMetricPath(),metric.getMetricNameOrAlias());
             printMetric(fullMetricPath,metric.getMetricValue(), props.getAggregationType(),props.getTimeRollupType(),props.getClusterRollupType());
         }
-        logger.debug("Total number of metrics reported by WMBMonitor {}",getTotalMetricsReported());
+        logger.debug("Total number of metricUtils reported by WMBMonitor {}",getTotalMetricsReported());
     }
 
     @VisibleForTesting
@@ -57,11 +57,11 @@ public class MetricPrinter {
         }
     }
 
-    private String formMetricPath(String metricKey) {
+    private String formMetricPath(String metricPath, String metricName) {
         if(!Strings.isNullOrEmpty(displayName)){
-            return metricPrefix + "|" + displayName + "|" + metricKey;
+            return metricPrefix + "|" + displayName + "|" + metricPath + "|" + metricName;
         }
-        return metricPrefix + "|" + metricKey;
+        return metricPrefix + "|" + metricPath + "|" + metricName;
     }
 
     public int getTotalMetricsReported() {

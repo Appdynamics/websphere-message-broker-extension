@@ -1,4 +1,4 @@
-package com.appdynamics.extensions.wmb.metrics;
+package com.appdynamics.extensions.wmb.metricUtils;
 
 
 import com.appdynamics.extensions.util.MetricWriteHelper;

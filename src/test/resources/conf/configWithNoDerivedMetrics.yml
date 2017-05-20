@@ -173,31 +173,6 @@ queueManagers:
           include:
             - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
 
-    derivedMetrics:
-      flowStatistics:
-        - type: "MessageFlow"
-          identifiers: [""]
-          include:
-            - AverageElapsedTime : "AverageElapsedTime"
-            - AverageCPUTime: "AverageCPUTime"
-            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
-            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
-
-        - type: "Threads"
-          identifiers: ["ThreadStatistics"]
-          include:
-            - AverageElapsedTime: "AverageElapsedTime"
-            - AverageCPUTime: "AverageCPUTime"
-            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
-            - AverageElapsedTimeWaitingForInputMessage: "AverageElapsedTimeWaitingForInputMessage"
-            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
-
-        - type: "Nodes"
-          identifiers: ["NodeStatistics"]
-          include:
-            - AverageElapsedTime: "AverageElapsedTime"
-            - AverageCPUTime: "AverageCPUTime"
-
 
 #Don't change this unless you are having more than 10 queue managers to monitor.
 numberOfThreads: 10

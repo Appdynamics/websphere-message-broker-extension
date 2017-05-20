@@ -1,4 +1,4 @@
-package com.appdynamics.extensions.wmb.metrics;
+package com.appdynamics.extensions.wmb.metricUtils;
 
 import com.google.common.base.Strings;
 
@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class Metric {
     private String metricName;
-    private String metricKey;
+    private String metricPath;
     private String clusterKey;
     private BigDecimal metricValue;
     private MetricProperties properties;
@@ -22,12 +22,12 @@ public class Metric {
         this.metricName = metricName;
     }
 
-    public String getMetricKey() {
-        return metricKey;
+    public String getMetricPath() {
+        return metricPath;
     }
 
-    public void setMetricKey(String metricKey) {
-        this.metricKey = metricKey;
+    public void setMetricPath(String metricPath) {
+        this.metricPath = metricPath;
     }
 
     public BigDecimal getMetricValue() {

@@ -1,4 +1,4 @@
-package com.appdynamics.extensions.wmb.metrics;
+package com.appdynamics.extensions.wmb.metricUtils;
 
 import java.util.Map;
 
@@ -13,7 +13,6 @@ public class MetricProperties {
     private String timeRollupType;
     private String clusterRollupType;
     private double multiplier = DEFAULT_MULTIPLIER;
-    private boolean aggregation;
     private boolean delta;
     private Map<Object,Object> conversionValues;
 
@@ -63,14 +62,6 @@ public class MetricProperties {
 
     public void setMultiplier(double multiplier) {
         this.multiplier = multiplier;
-    }
-
-    public boolean isAggregation() {
-        return aggregation;
-    }
-
-    public void setAggregation(boolean aggregation) {
-        this.aggregation = aggregation;
     }
 
     public Map<Object, Object> getConversionValues() {
