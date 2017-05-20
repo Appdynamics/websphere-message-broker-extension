@@ -342,8 +342,8 @@ There are two configurations needed:
 Metric Properties
 -----------------
 
-You may be seeing some metrics as an ever increasing counter. Sometimes that is helpful most of the times you may just want to see the change
-in that minute for a particular metric. We let you configure that in the config.yaml for each metric. 
+You may see some metrics as an ever increasing counter. Sometimes that is helpful but most of the times you may just want to see the change
+in that minute for a particular metric. We let you configure that in the config.yml for each metric. 
 
 for eg. 
 
@@ -394,7 +394,8 @@ Troubleshooting
    This usually happenes when on a windows machine in monitor.xml you give config.yaml file path with linux file path separator */*. Use Windows file path separator *\* e.g. *monitors\MQMonitor\config.yaml*. For Windows, please specify 
    the complete path
 
-7. Collect Debug Logs: Edit the file, *<MachineAgent>/conf/logging/log4j.xml* and update the level of the appender *com.appdynamics* and *com.singularity* to debug. Let it run for 5-10 minutes and attach the logs to a support ticket
+7. Collect Debug Logs: Edit the file, *<MachineAgent>/conf/logging/log4j.xml* and update the level of the appender *com.appdynamics* and *com.singularity* to debug. Let it run for 5-10 minutes and attach the logs to a support ticket.
+8. Please confirm whether the resourcestats and flowstats were enabled for the queue manager and the listener port is up.
 
 
 
