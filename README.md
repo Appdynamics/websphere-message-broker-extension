@@ -26,7 +26,7 @@ Dependencies
 ------------
 
 **This extension requires the IBM MQ JMS client classes.** Refer to the IBM documentation for the specific jars.
-For IBM MQ 8.0.0.5, copy the following jars to the *<Machine_Agent_Dir>/WMBMonitor/lib* directory:
+For IBM MQ 8.0 and above, it depends on the following jars 
 
 ```
 com.ibm.mq.allclient.jar
@@ -36,13 +36,15 @@ jms.jar
 providerutil.jar
 ```
 
-For previous versions, copy the follow jars to the *<Machine_Agent_Dir>/WMBMonitor/lib* directory:
+For previous versions, 
 
 ```
 com.ibm.mqjms.jar
 jms.jar
 ```
 
+
+This extension works for Windows, Unix as well as AIX. 
 
 Rebuilding the Project
 ----------------------
@@ -57,9 +59,10 @@ Rebuilding the Project
 Installation
 -------------
 
-To install the extension, extract the zip file to *<Machine_Agent_Dir>/monitors/* and then copy the required jar files to *<Machine_Agent_Dir>/monitors/WMBMonitor/lib*.
-Create a *lib* folder if not already present.
-
+To install the extension, extract the zip file to *<Machine_Agent_Dir>/monitors/* . IBM doesn't recommend copying the IBM jar files into other file locations.
+In fact, from MQ version 8.0 onwards, IBM restricts the jars that can be copied. See [here](http://www-01.ibm.com/support/docview.wss?uid=swg21376217)  
+ 
+ 
 There are two configurations needed:
 
  1. On the WebSphere Message Broker
@@ -122,7 +125,16 @@ There are two configurations needed:
     If the queue manager and/or TCP listener is not present, please create them.
       
  2. On the appdynamics extension
- 
+    
+    You can run this extension in `Client` or `Bindings` mode. In `Bindings` mode the extension needs to be installed on the same box as the MQ Server. In `Client` mode the extension
+    needs to be remote and should have the access to the MQ Server. 
+    
+    If you are planning to use it in `Bindings` mode, please make sure that 
+    based on your OS, the IBM library path in the `appd-message-broker-monitor.sh` or `appd-message-broker-monitor.bat` exists and that IBM MQ jar files are available in that location. 
+    
+    If you are planning to use it in `Client` mode, please download the right version of [IBM MQ Client](http://www-01.ibm.com/support/docview.wss?uid=swg21376217) on that remote server and obtain the 
+    above mentioned IBM jars from there. 
+    
     Configure the config.yml file in the WMBMonitor directory.
  
     ```
@@ -338,6 +350,11 @@ There are two configurations needed:
       period: 5
 
     ```
+
+Support for AIX
+---------------
+This extension works on AIX if you point to ` <file os-type="linux">appd-message-broker-monitor.sh</file>` in the monitor.xml and change the appd-message-broker-monitor.sh and process_checker.sh files to using korn shell. 
+
 
 Metric Properties
 -----------------
