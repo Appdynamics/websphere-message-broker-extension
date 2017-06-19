@@ -1,6 +1,6 @@
 @echo off
 
-﻿setlocal enabledelayedexpansion
+setlocal enabledelayedexpansion
 
 REM ****Get the MA process id****
 SET /a lineCount=1
