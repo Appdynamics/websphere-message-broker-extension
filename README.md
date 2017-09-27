@@ -351,6 +351,11 @@ There are two configurations needed:
 
     ```
 
+Performance overhead
+---------------------
+
+There may be a performance overhead on activating resource and flow stats in your IIB environment. Please check [this](https://developer.ibm.com/answers/questions/190890/performance-impact-of-enabling-accounting-and-stat.htm) link on what IBM has documented about the performance impact. 
+
 Support for AIX
 ---------------
 This extension works on AIX if you point to ` <file os-type="linux">appd-message-broker-monitor.sh</file>` in the monitor.xml and change the appd-message-broker-monitor.sh and process_checker.sh files to using korn shell. 
