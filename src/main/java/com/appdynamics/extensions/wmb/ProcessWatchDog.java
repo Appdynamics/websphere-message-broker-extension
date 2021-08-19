@@ -1,8 +1,9 @@
 package com.appdynamics.extensions.wmb;
 
 
-import com.appdynamics.extensions.PathResolver;
-import org.slf4j.LoggerFactory;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
+import com.appdynamics.extensions.util.PathResolver;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.util.concurrent.CountDownLatch;
@@ -12,7 +13,7 @@ import java.util.concurrent.CountDownLatch;
  */
 class ProcessWatchDog implements Runnable{
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ProcessWatchDog.class);
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(ProcessWatchDog.class);
     private String pid;
     private CountDownLatch countDownLatch;
     private File installDir;

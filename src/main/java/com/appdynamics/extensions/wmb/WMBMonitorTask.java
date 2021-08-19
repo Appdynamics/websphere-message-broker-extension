@@ -1,9 +1,10 @@
 package com.appdynamics.extensions.wmb;
 
 
-import com.appdynamics.extensions.util.MetricWriteHelper;
-import com.appdynamics.extensions.wmb.metricUtils.MetricPrinter;
-import org.slf4j.LoggerFactory;
+import com.appdynamics.extensions.AMonitorTaskRunnable;
+import com.appdynamics.extensions.MetricWriteHelper;
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
+import org.slf4j.Logger;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -12,17 +13,17 @@ import java.util.Map;
 
 import static com.appdynamics.extensions.wmb.Util.convertToString;
 
-class WMBMonitorTask implements Runnable{
+class WMBMonitorTask implements AMonitorTaskRunnable {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(WMBMonitorTask.class);
-
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(WMBMonitorTask.class);
+    private static final String SEPARATOR = "|";
     private String displayName;
 
     /* metric prefix from the config.yaml to be applied to each metric path*/
     private String metricPrefix;
 
     /* a facade to report metricUtils to the machine agent.*/
-    private MetricWriteHelper metricWriter;
+    private MetricWriteHelper metricWriteHelper;
 
     private Map queueManagerConfig;
 
@@ -33,10 +34,9 @@ class WMBMonitorTask implements Runnable{
         try {
             logger.info("Executing a run of WMBMonitor.");
             displayName = convertToString(queueManagerConfig.get("name"),"");
-            MetricPrinter metricPrinter = new MetricPrinter(metricPrefix,displayName,metricWriter);
             Connection conn = new ConnectionFactory().createConnection(queueManagerConfig);
             //subscribe subscribers
-            StatsSubscription sub = new StatsSubscription(queueManagerConfig,metricPrinter);
+            StatsSubscription sub = new StatsSubscription(queueManagerConfig,metricWriteHelper,metricPrefix +SEPARATOR+displayName);
             sub.subscribe(conn);
             //start connection
             conn.start();
@@ -50,6 +50,10 @@ class WMBMonitorTask implements Runnable{
         }
     }
 
+    @Override
+    public void onTaskComplete() {
+        logger.info("WMB monitor run completed successfully.");
+    }
 
 
     static class Builder {
@@ -60,8 +64,8 @@ class WMBMonitorTask implements Runnable{
             return this;
         }
 
-        Builder metricWriter(MetricWriteHelper metricWriter) {
-            task.metricWriter = metricWriter;
+        Builder metricWriter(MetricWriteHelper metricWriteHelper) {
+            task.metricWriteHelper = metricWriteHelper;
             return this;
         }
 
