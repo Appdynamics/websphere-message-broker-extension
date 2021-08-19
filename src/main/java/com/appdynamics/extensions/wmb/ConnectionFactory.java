@@ -1,9 +1,10 @@
 package com.appdynamics.extensions.wmb;
 
 
+import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
 import com.ibm.mq.jms.MQConnectionFactory;
 import com.ibm.msg.client.wmq.WMQConstants;
-import org.slf4j.LoggerFactory;
+import org.slf4j.Logger;
 
 import javax.jms.Connection;
 import javax.jms.JMSException;
@@ -16,7 +17,7 @@ import static com.appdynamics.extensions.wmb.Util.convertToString;
  */
 class ConnectionFactory {
 
-    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(ConnectionFactory.class);
+    private static final Logger logger = ExtensionsLoggerFactory.getLogger(ConnectionFactory.class);
 
     Connection createConnection(Map queueManagerConfig) throws JMSException {
         logger.info("Connecting to the queue manager...");

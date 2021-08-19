@@ -58,24 +58,37 @@ queueManagers:
         - type: "JVM"
           identifiers: ["summary","Heap Memory","Non-Heap Memory","Garbage Collection - Copy","Garbage Collection - MarkSweepCompact"]
           include:
-            - InitialMemoryInMB : "InitialMemoryInMB"  #The initial amount of memory that the JVM requests from the operating system for memory management during startup. Its value might be undefined.
-            - UsedMemoryInMB : "UsedMemoryInMB" #The amount of memory that is currently in use.
-            - CommittedMemoryInMB : "CommittedMemoryInMB" #The amount of memory that is allocated to the JVM by the operating system.
-            - MaxMemoryInMB : "MaxMemoryInMB" #The maximum amount of memory that can be used for memory management. Its value might be undefined.
-            - CumulativeNumberOfGCCollections : "CumulativeNumberOfGCCollections" #The total number of garbage collections that have occurred for this instance of the JVM. Its value might be undefined.
+            - name : "InitialMemoryInMB"  #The initial amount of memory that the JVM requests from the operating system for memory management during startup. Its value might be undefined.
+              alias: "InitialMemoryInMB"
+            - name : "UsedMemoryInMB" #The amount of memory that is currently in use.
+              alias: "UsedMemoryInMB"
+            - name : "CommittedMemoryInMB" #The amount of memory that is allocated to the JVM by the operating system.
+              alias: "CommittedMemoryInMB"
+            - name : "MaxMemoryInMB" #The maximum amount of memory that can be used for memory management. Its value might be undefined.
+              alias: "MaxMemoryInMB"
+            - name : "CumulativeNumberOfGCCollections" #The total number of garbage collections that have occurred for this instance of the JVM. Its value might be undefined.
+              alias: "CumulativeNumberOfGCCollections"
 
         - type: "JDBCConnectionPools"
           identifiers: ["summary"]
           include:
-            - MaxSizeOfPool : "This is max pool"  #The maximum size of the connection pool.
-            - ActualSizeOfPool : "ActualSizeOfPool"   #A snapshot of the number of connections currently in the pool when the statistics were reported.
-            - CumulativeRequests : "CumulativeRequests"  #A count of the number of requests received by the connection pool during this accounting period.
-            - CumulativeDelayedRequests : "CumulativeDelayedRequests"  #The number of times a request for a connection could not be satisfied immediately, because the number of allocated connections reached the maximum pool size and no connections are currently available.
+            - name : "MaxSizeOfPool"  #The maximum size of the connection pool.
+              alias: "This is max pool"
+            - name : "ActualSizeOfPool"   #A snapshot of the number of connections currently in the pool when the statistics were reported.
+              alias: "ActualSizeOfPool"
+            - name : "CumulativeRequests"  #A count of the number of requests received by the connection pool during this accounting period.
+              alias: "CumulativeRequests"
+            - name : "CumulativeDelayedRequests"  #The number of times a request for a connection could not be satisfied immediately, because the number of allocated connections reached the maximum pool size and no connections are currently available.
+              alias: "CumulativeDelayedRequests"
               delta: true
-            - MaxDelayInMilliseconds : "MaxDelayInMilliseconds"  #The maximum time a caller waited for a connection to be allocated, in milliseconds.
-            - CumulativeTimedOutRequests : "CumulativeTimedOutRequests"  #A count of the number of requests for connections that could not be satisfied within 15 seconds.
-              metricType: "OBSERVATION CURRENT INDIVIDUAL"
-              multiplier: 0.5
+            - name : "MaxDelayInMilliseconds"  #The maximum time a caller waited for a connection to be allocated, in milliseconds.
+              alias: "MaxDelayInMilliseconds"
+            - name : "CumulativeTimedOutRequests"  #A count of the number of requests for connections that could not be satisfied within 15 seconds.
+              alias: "CumulativeTimedOutRequests"
+              aggregationType: "OBSERVATION"
+              timeRollUpType: "CURRENT"
+              clusterRollUpType: "INDIVIDUAL"
+              multiplier: "0.5"
 
         - type: "Sockets"
           identifiers: ["summary"]

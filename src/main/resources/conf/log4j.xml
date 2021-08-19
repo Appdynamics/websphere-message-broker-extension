@@ -1,36 +1,33 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-    <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender"> 
-    	<layout class="org.apache.log4j.PatternLayout"> 
-            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c - %m%n"/>
-        </layout>
-    </appender>
+<configuration status="Warn" monitorInterval="30">
 
-  <appender name="RollingFileAppender" class="org.apache.log4j.RollingFileAppender"> 
-    <param name="file" value="logs/app_wmb_ext.log"/>
-    <param name="MaxFileSize" value="5000KB"/>
-    <param name="MaxBackupIndex" value="5"/>
-    <layout class="org.apache.log4j.PatternLayout"> 
-            <param name="ConversionPattern" value="[%t] %d{DATE} %5p %c - %m%n"/>
-    </layout> 
-  </appender> 
-  
-  <logger name="com.appdynamics.extensions" additivity="false">
-	<level value="info"/>
-	<appender-ref ref="RollingFileAppender"/>
-	<appender-ref ref="ConsoleAppender"/>
-  </logger>
-  
-  <logger name="org.apache" additivity="false">
-	<level value="info"/>
-	<appender-ref ref="RollingFileAppender"/>
-	<appender-ref ref="ConsoleAppender"/>
-  </logger>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ABSOLUTE} %5p [%t] %c{1} - %m%n"/>
+        </Console>
 
-  <root>
-      <priority value="error"/>
-      <appender-ref ref="RollingFileAppender"/>
-  </root>
+        <RollingFile name="FileAppender" fileName="logs/app_wmb_ext.log"
+                     filePattern="logs/app_wmb_ext.log.%i">
+            <PatternLayout>
+                <Pattern>[%t] %d{DATE} %5p %c{1} - %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="5000 KB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
 
-</log4j:configuration>
+    <Loggers>
+        <Logger name="com.appdynamics.extensions" level="info" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Logger name="org.apache" level="info" additivity="false">
+            <AppenderRef ref="FileAppender"/>
+        </Logger>
+        <Root level="error">
+            <AppenderRef ref="FileAppender"/>
+        </Root>
+    </Loggers>
+
+</configuration>
