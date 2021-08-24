@@ -485,7 +485,7 @@ This extension works on AIX if you point to ` <file os-type="linux">appd-message
 
   
 ## Troubleshooting
-1. Please follow the steps listed in this [troubleshooting-document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that customers might have faced during the installation of the extension. If these don't solve your issue, please follow the last step on the [troubleshooting-document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) to contact the support team
+1. Please follow the steps listed in this [troubleshooting-document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) in order to troubleshoot your issue. These are a set of common issues that customers might have faced during the installation of the extension.
 2. Verify Machine Agent Data: Please start the Machine Agent without the extension and make sure that it reports data. Verify that the machine agent status is UP and it is reporting Hardware Metrics.
 3. MQ Version incompatibilities :  In case of any jar incompatibility issue, the rule of thumb is to use the jars from MQ version 8.0.  
 4. Metric Limit: Please start the machine agent with the argument `-Dappdynamics.agent.maxMetrics=5000` if there is a metric limit reached error in the logs. If you don't see the expected metrics, this could be the cause.
@@ -495,21 +495,6 @@ This extension works on AIX if you point to ` <file os-type="linux">appd-message
    the complete path
 
 7. Please confirm whether the resourcestats and flowstats were enabled for the queue manager and the listener port is up.
-
-## Support Tickets
-If after going through the [Troubleshooting Document](https://community.appdynamics.com/t5/Knowledge-Base/How-to-troubleshoot-missing-custom-metrics-or-extensions-metrics/ta-p/28695) you have not been able to get your extension working, please file a ticket and add the following information.
-
-Please provide the following in order for us to assist you better.
-
-1. Stop the running machine agent.
-2. Delete all existing logs under <MachineAgent>/logs.
-3. Please enable debug logging by editing the file <MachineAgent>/conf/logging/log4j.xml. Change the level value of the following <logger> elements to debug.
-   <logger name="com.singularity">
-   <logger name="com.appdynamics">
-4. Start the machine agent and please let it run for 10 mins. Then zip and upload all the logs in the directory <MachineAgent>/logs/*.
-5. Attach the zipped <MachineAgent>/conf/* directory here.
-6. Attach the zipped <MachineAgent>/monitors/ExtensionFolderYouAreHavingIssuesWith directory here.
-   For any support related questions, you can also contact help@appdynamics.com.
 
 ## Custom Dashboard
 ![](https://raw.githubusercontent.com/Appdynamics/ibm-websphere-msg-broker-monitor/master/ibm-wmb.png)
