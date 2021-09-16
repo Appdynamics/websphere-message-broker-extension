@@ -452,7 +452,7 @@ period: 5
 ```
 
 #### Yml Validation
-Please copy all the contents of the config.yml file and go to http://www.yamllint.com/ . On reaching the website, paste the contents and press the “Go” button on the bottom left.
+Please copy all the contents of the config.yml file and go [here](https://jsonformatter.org/yaml-validator) . On reaching the website, paste the contents and press the “Validate YAML” button.
 
 #### Metric Properties
 
@@ -507,7 +507,8 @@ Always feel free to fork and contribute any changes directly via [GitHub](https:
 |          Name            |  Version   |
 |--------------------------|------------|
 |Extension Version         |6.0.0       |
-|Controller Compatibility  |4.5 or Later|
-|Machine Agent Version     |4.5.13+     |
-|Product Tested on         |8.0.0.4       |
+|Product Tested on         |8.0.0.4     |
 |Last Update               |19/08/2021  |
+|Change List               |[ChangeLogs](https://github.com/Appdynamics/websphere-message-broker-extension/blob/master/CHANGELOG.md)|
+
+**Note**: While extensions are maintained and supported by customers under the open-source licensing model, they interact with agents and Controllers that are subject to [AppDynamics’ maintenance and support policy](https://docs.appdynamics.com/latest/en/product-and-release-announcements/maintenance-support-for-software-versions). Some extensions have been tested with AppDynamics 4.5.13+ artifacts, but you are strongly recommended against using versions that are no longer supported.
