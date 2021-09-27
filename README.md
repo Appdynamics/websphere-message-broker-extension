@@ -15,9 +15,11 @@ https://www.ibm.com/support/knowledgecenter/en/SSMKHH_10.0.0/com.ibm.etools.mft.
 
 1. Before the extension is installed, the prerequisites mentioned [here](https://community.appdynamics.com/t5/Knowledge-Base/Extensions-Prerequisites-Guide/ta-p/35213) need to be met. Please do not proceed with the extension installation if the specified prerequisites are not met
 
-2. If this extension is configured for *Client* transport type (more on that later), please make sure the MQ's host and port is accessible. 
+2. Download and install [Apache Maven](https://maven.apache.org/) which is configured with `Java 8` to build the extension artifact from source. You can check the java version used in maven using command `mvn -v` or `mvn --version`. If your maven is using some other java version then please download java 8 for your platform and set JAVA_HOME parameter before starting maven.
 
-3. If this extension is configured for *Bindings* transport type (more on that later), admin level credentials to the queue manager would be needed. If the hosting OS for IBM MQ is Windows, Windows user credentials will be needed. 
+3. If this extension is configured for *Client* transport type (more on that later), please make sure the MQ's host and port is accessible. 
+
+4. If this extension is configured for *Bindings* transport type (more on that later), admin level credentials to the queue manager would be needed. If the hosting OS for IBM MQ is Windows, Windows user credentials will be needed. 
 
 ### Dependencies
 
@@ -44,9 +46,24 @@ This extension works for Windows, Unix as well as AIX.
 
 ## Installation
 
-1. Clone the repo from GitHub: https://github.com/Appdynamics/websphere-message-broker-extension
-2. Copy all the required jar files from your IBM MQ installation directory to the *lib* folder in the cloned repository.
-   For Unix environments, the required jars can be found in *<IBM_MQ_INSTALL_DIR>/java/lib*.
+1. Clone the "websphere-message-broker-extension" repo using `git clone <repoUrl>` command.
+2. Copy the following jars in the `websphere-message-broker-extension/lib` folder. (These jars are shipped with your Websphere message broker product itself)
+* For IBM MQ 8.0 and above, it depends on the following jars 
+```
+com.ibm.mq.allclient.jar
+com.ibm.mq.traceControl.jar
+fscontext.jar
+jms.jar
+providerutil.jar
+```
+* For previous versions, 
+```
+com.ibm.mqjms.jar
+jms.jar
+```
+For Unix environments, the required jars can be found in *<IBM_MQ_INSTALL_DIR>/java/lib*.
+Make sure to uncomment the dependencies in pom.xml based on the dependencies you are adding in lib folder.
+
 3. Run `mvn clean install -Pmq8` for MQ version 8.X (default) or `mvn clean install -Pmq7.5` for MQ version 7.5.
 4. The WMBMonitor-\<version\>.zip should get built and found in the *target* directory.
 5. Unzip the contents of WMBMonitor-\<version\>.zip file and copy the directory to `<your-machine-agent-dir>/monitors`.
