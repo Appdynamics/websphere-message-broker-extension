@@ -22,6 +22,6 @@ FOR /f "tokens=1" %%a in ('wmic process where ^(processid^=!CURR_PROCESS_ID!^) g
 )
 
 REM ****Pass MA process id to the java process****
-..\..\jre\bin\java -cp ".\*;..\..\machineagent.jar;C:\Program Files\IBM\MQ\java\lib\*" -Djava.library.path="C:\Program Files\IBM\MQ\java\lib64" -Dlog4j.configuration=file:.\log4j.xml -Dextension.configuration=.\monitors\WMBMonitor\config.yml com.appdynamics.extensions.wmb.WMBMonitor !PARENT_PROCESS_ID!
+..\..\jre\bin\java -cp ".\*;..\..\machineagent.jar;C:\Program Files\IBM\MQ\java\lib\*" -Djava.library.path="C:\Program Files\IBM\MQ\java\lib64" -Dlog4j.configurationFile=.\log4j2.xml -Dextension.configuration=.\monitors\WMBMonitor\config.yml com.appdynamics.extensions.wmb.WMBMonitor !PARENT_PROCESS_ID!
 
 endlocal

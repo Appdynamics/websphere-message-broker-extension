@@ -58,231 +58,145 @@ queueManagers:
         - type: "JVM"
           identifiers: ["summary","Heap Memory","Non-Heap Memory","Garbage Collection - Copy","Garbage Collection - MarkSweepCompact"]
           include:
-            - name : "InitialMemoryInMB"  #The initial amount of memory that the JVM requests from the operating system for memory management during startup. Its value might be undefined.
-              alias: "InitialMemoryInMB"
-            - name : "UsedMemoryInMB" #The amount of memory that is currently in use.
-              alias: "UsedMemoryInMB"
-            - name : "CommittedMemoryInMB" #The amount of memory that is allocated to the JVM by the operating system.
-              alias: "CommittedMemoryInMB"
-            - name : "MaxMemoryInMB" #The maximum amount of memory that can be used for memory management. Its value might be undefined.
-              alias: "MaxMemoryInMB"
-            - name : "CumulativeNumberOfGCCollections" #The total number of garbage collections that have occurred for this instance of the JVM. Its value might be undefined.
-              alias: "CumulativeNumberOfGCCollections"
+            - InitialMemoryInMB : "InitialMemoryInMB"  #The initial amount of memory that the JVM requests from the operating system for memory management during startup. Its value might be undefined.
+            - UsedMemoryInMB : "UsedMemoryInMB" #The amount of memory that is currently in use.
+            - CommittedMemoryInMB : "CommittedMemoryInMB" #The amount of memory that is allocated to the JVM by the operating system.
+            - MaxMemoryInMB : "MaxMemoryInMB" #The maximum amount of memory that can be used for memory management. Its value might be undefined.
+            - CumulativeNumberOfGCCollections : "CumulativeNumberOfGCCollections" #The total number of garbage collections that have occurred for this instance of the JVM. Its value might be undefined.
 
         - type: "JDBCConnectionPools"
           identifiers: ["summary"]
           include:
-            - name : "MaxSizeOfPool"  #The maximum size of the connection pool.
-              alias: "MaxSizeOfPool"
-            - name : "ActualSizeOfPool"   #A snapshot of the number of connections currently in the pool when the statistics were reported.
-              alias: "ActualSizeOfPool"
-            - name : "CumulativeRequests"  #A count of the number of requests received by the connection pool during this accounting period.
-              alias: "CumulativeRequests"
-            - name : "CumulativeDelayedRequests"  #The number of times a request for a connection could not be satisfied immediately, because the number of allocated connections reached the maximum pool size and no connections are currently available.
-              alias: "CumulativeDelayedRequests"
-            - name : "MaxDelayInMilliseconds"  #The maximum time a caller waited for a connection to be allocated, in milliseconds.
-              alias: "MaxDelayInMilliseconds"
-            - name : "CumulativeTimedOutRequests"  #A count of the number of requests for connections that could not be satisfied within 15 seconds.
-              alias: "CumulativeTimedOutRequests"
+            - MaxSizeOfPool : "MaxSizeOfPool"  #The maximum size of the connection pool.
+            - ActualSizeOfPool : "ActualSizeOfPool"   #A snapshot of the number of connections currently in the pool when the statistics were reported.
+            - CumulativeRequests : "CumulativeRequests"  #A count of the number of requests received by the connection pool during this accounting period.
+            - CumulativeDelayedRequests : "CumulativeDelayedRequests"  #The number of times a request for a connection could not be satisfied immediately, because the number of allocated connections reached the maximum pool size and no connections are currently available.
+            - MaxDelayInMilliseconds : "MaxDelayInMilliseconds"  #The maximum time a caller waited for a connection to be allocated, in milliseconds.
+            - CumulativeTimedOutRequests : "CumulativeTimedOutRequests"  #A count of the number of requests for connections that could not be satisfied within 15 seconds.
 
         - type: "JMS"
           identifiers: ["summary"]
           include:
-            - name : "NumberOfOpenJMSConnections" #The current number of open JMS connections.
-              alias: "NumberOfOpenJMSConnections"
-            - name : "NumberOfClosedJMSConnections"  #The total number of JMS connections that were closed since the last integration server restart.
-              alias: "NumberOfClosedJMSConnections"
-            - name : "NumberOfOpenJMSSessions"  #The current number of open JMS sessions.
-              alias: "NumberOfOpenJMSSessions"
-            - name : "NumberOfClosedJMSSessions"  #The total number of JMS sessions that were closed since the last integration server restart.
-              alias: "NumberOfClosedJMSSessions"
-            - name : "NumberOfMessagesReceived"  #The total number of messages received by JMSInput or JMSReceive nodes.
-              alias: "NumberOfMessagesReceived"
-            - name : "NumberOfMessagesSent" #The total number of messages sent by JMSOutput nodes.
-              alias: "NumberOfMessagesSent"
-            - name : "NumberOfMessagesBrowsed"  #The total number of messages browsed by JMSReceive nodes.
-              alias: "NumberOfMessagesBrowsed"
-            - name : "NumberOfJMSConnectionFailures"  #The total number of attempted JMS connections that failed since the last integration server restarts.
-              alias: "NumberOfJMSConnectionFailures"
+            - NumberOfOpenJMSConnections : "NumberOfOpenJMSConnections" #The current number of open JMS connections.
+            - NumberOfClosedJMSConnections : "NumberOfClosedJMSConnections"  #The total number of JMS connections that were closed since the last integration server restart.
+            - NumberOfOpenJMSSessions : "NumberOfOpenJMSSessions"  #The current number of open JMS sessions.
+            - NumberOfClosedJMSSessions : "NumberOfClosedJMSSessions"  #The total number of JMS sessions that were closed since the last integration server restart.
+            - NumberOfMessagesReceived : "NumberOfMessagesReceived"  #The total number of messages received by JMSInput or JMSReceive nodes.
+            - NumberOfMessagesSent : "NumberOfMessagesSent" #The total number of messages sent by JMSOutput nodes.
+            - NumberOfMessagesBrowsed : "NumberOfMessagesBrowsed"  #The total number of messages browsed by JMSReceive nodes.
+            - NumberOfJMSConnectionFailures : "NumberOfJMSConnectionFailures"  #The total number of attempted JMS connections that failed since the last integration server restarts.
 
         - type: "Sockets"
           identifiers: ["summary"]
           include:
-            - name : "TotalSockets"    #The number of outbound sockets that have been opened since the last integration server restart.
-              alias: "TotalSockets"
-            - name : "TotalMessages"  #The number of requests for a socket; for example, from a SOAPRequest node.
-              alias: "TotalMessages"
-            - name : "TotalDataSent_KB"  #The number of bytes sent, in kilobytes (KB).
-              alias: "TotalDataSent_KB"
-            - name : "TotalDataReceived_KB"  #The number of bytes received, in kilobytes (KB).
-              alias: "TotalDataReceived_KB"
-            - name : "SentMessageSize_10KB-100KB" #The number of messages sent in each size range. For example, a message of 999 bytes is counted in SentMessageSize_0-1KB; a message of 1000 bytes is counted in SentMessageSize_1KB-10KB.
-              alias: "SentMessageSize_10KB-100KB"
+            - TotalSockets : "TotalSockets"    #The number of outbound sockets that have been opened since the last integration server restart.
+            - TotalMessages : "TotalMessages"  #The number of requests for a socket; for example, from a SOAPRequest node.
+            - TotalDataSent_KB : "TotalDataSent_KB"  #The number of bytes sent, in kilobytes (KB).
+            - TotalDataReceived_KB : "TotalDataReceived_KB"  #The number of bytes received, in kilobytes (KB).
+            - SentMessageSize_10KB-100KB : "SentMessageSize_10KB-100KB" #The number of messages sent in each size range. For example, a message of 999 bytes is counted in SentMessageSize_0-1KB; a message of 1000 bytes is counted in SentMessageSize_1KB-10KB.
 
         - type: "TCPIPClientNodes"
           identifiers: ["summary"]
           include:
-            - name: "OpenConnections" #The current number of open connections
-              alias: "OpenConnections"
-            - name: "ClosedConnections" #The total number of connections that were closed since the last integration server restart
-              alias: "ClosedConnections"
-            - name: "MessagesReceived" #The total number of messages received (by TCPIPClientInput or TCPIPClientReceive nodes)
-              alias: "MessagesReceived"
-            - name : "MessagesSent" #The total number of messages sent (by TCPIPClientOutput nodes)
-              alias: "MessagesSent"
-            - name : "BytesSent" #The total amount of data sent (by TCPIPClientOutput nodes), excluding SSL wrappers.
-              alias: "BytesSent"
-            - name: "BytesReceived"  #The total amount of data received (by TCPIPClientInput or TCPIPClientReceive nodes),  excluding SSL wrappers.
-              alias: "BytesReceived"
-            - name : "FailedConnections"  #The total number of attempted connections that failed since the last integration server restarts.
-              alias: "FailedConnections"
+            - OpenConnections: "OpenConnections" #The current number of open connections
+            - ClosedConnections: "ClosedConnections" #The total number of connections that were closed since the last integration server restart
+            - MessagesReceived: "MessagesReceived" #The total number of messages received (by TCPIPClientInput or TCPIPClientReceive nodes)
+            - MessagesSent : "MessagesSent" #The total number of messages sent (by TCPIPClientOutput nodes)
+            - BytesSent : "BytesSent" #The total amount of data sent (by TCPIPClientOutput nodes), excluding SSL wrappers.
+            - BytesReceived: "BytesReceived"  #The total amount of data received (by TCPIPClientInput or TCPIPClientReceive nodes),  excluding SSL wrappers.
+            - FailedConnections : "FailedConnections"  #The total number of attempted connections that failed since the last integration server restarts.
 
         - type: "TCPIPServerNodes"
           identifiers: ["summary"]
           include:
-            - name: "OpenConnections" #The current number of open connections
-              alias: "OpenConnections"
-            - name: "ClosedConnections" #The total number of connections that were closed since the last integration server restart
-              alias: "ClosedConnections"
-            - name: "MessagesReceived" #The total number of messages received (by TCPIPClientInput or TCPIPClientReceive nodes)
-              alias: "MessagesReceived"
-            - name : "MessagesSent" #The total number of messages sent (by TCPIPClientOutput nodes)
-              alias: "MessagesSent"
-            - name : "BytesSent" #The total amount of data sent (by TCPIPClientOutput nodes), excluding SSL wrappers.
-              alias: "BytesSent"
-            - name: "BytesReceived"  #The total amount of data received (by TCPIPClientInput or TCPIPClientReceive nodes),  excluding SSL wrappers.
-              alias: "BytesReceived"
-            - name : "FailedConnections"  #The total number of attempted connections that failed since the last integration server restarts.
-              alias: "FailedConnections"
+            - OpenConnections: "OpenConnections" #The current number of open connections
+            - ClosedConnections: "ClosedConnections" #The total number of connections that were closed since the last integration server restart
+            - MessagesReceived: "MessagesReceived" #The total number of messages received (by TCPIPClientInput or TCPIPClientReceive nodes)
+            - MessagesSent : "MessagesSent" #The total number of messages sent (by TCPIPClientOutput nodes)
+            - BytesSent : "BytesSent" #The total amount of data sent (by TCPIPClientOutput nodes), excluding SSL wrappers.
+            - BytesReceived: "BytesReceived"  #The total amount of data received (by TCPIPClientInput or TCPIPClientReceive nodes),  excluding SSL wrappers.
+            - FailedConnections : "FailedConnections"  #The total number of attempted connections that failed since the last integration server restarts.
 
       flowStatistics:
         - type: "MessageFlow"
           identifiers: [""]
           include:
-            - name: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name: "MaximumElapsedTime"  #Maximum elapsed time that is spent processing an input message (microseconds)
-              alias: "MaximumElapsedTime"
-            - name: "MinimumElapsedTime"  #Minimum elapsed time that is spent processing an input message (microseconds)
-              alias: "MinimumElapsedTime"
-            - name: "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name: "MaximumCPUTime" #Maximum processor time that is spent processing an input message (microseconds)
-              alias: "MaximumCPUTime"
-            - name: "MinimumCPUTime" #Minimum processor time that is spent processing an input message (microseconds)
-              alias: "MinimumCPUTime"
-            - name: "CPUTimeWaitingForInputMessage" #Total processor time spent waiting for input messages (microseconds)
-              alias: "CPUTimeWaitingForInputMessage"
-            - name: "ElapsedTimeWaitingForInputMessage" #	Total elapsed time that is spent waiting for input messages (microseconds)
-              alias: "ElapsedTimeWaitingForInputMessage"
-            - name: "TotalInputMessages" #Total number of messages processed.TotalInputMessages records only those messages that are propagated from input node terminals.
-              alias: "TotalInputMessages"
-            - name : "TotalSizeOfInputMessages"  #Total size of input messages (bytes)
-              alias: "TotalSizeOfInputMessages"
-            - name : "MaximumSizeOfInputMessages"   #Maximum input message size (bytes)
-              alias: "MaximumSizeOfInputMessages"
-            - name : "MinimumSizeOfInputMessages" #Minimum message input size (bytes)
-              alias: "MinimumSizeOfInputMessages"
-            - name : "NumberOfThreadsInPool"  #Number of threads in pool
-              alias: "NumberOfThreadsInPool"
-            - name : "TimesMaximumNumberofThreadsReached"  #Number of times the maximum number of threads is reached
-              alias: "TimesMaximumNumberofThreadsReached"
-            - name : "TotalNumberOfMQErrors"   #Number of MQGET errors (MQInput node) or web services errors (HTTPInput node). For example, a conversion error occurs when the message is got from the queue.
-              alias: "TotalNumberOfMQErrors"
-            - name : "TotalNumberOfMessagesWithErrors"       #Number of messages that contain errors
-              alias: "TotalNumberOfMessagesWithErrors"
-            - name : "TotalNumberOfErrorsProcessingMessages"   #Number of errors when processing a message
-              alias: "TotalNumberOfErrorsProcessingMessages"
-            - name : "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"  #Number of timeouts when processing a message (AggregateReply node only)
-              alias: "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"
-            - name : "TotalNumberOfCommits"  #Number of transaction commits
-              alias: "TotalNumberOfCommits"
-            - name : "TotalNumberOfBackouts"     #Number of transaction backouts
-              alias: "TotalNumberOfBackouts"
+            - TotalElapsedTime : "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
+            - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time that is spent processing an input message (microseconds)
+            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time that is spent processing an input message (microseconds)
+            - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
+            - MaximumCPUTime : "MaximumCPUTime" #Maximum processor time that is spent processing an input message (microseconds)
+            - MinimumCPUTime : "MinimumCPUTime" #Minimum processor time that is spent processing an input message (microseconds)
+            - CPUTimeWaitingForInputMessage : "CPUTimeWaitingForInputMessage" #Total processor time spent waiting for input messages (microseconds)
+            - ElapsedTimeWaitingForInputMessage : "ElapsedTimeWaitingForInputMessage" #	Total elapsed time that is spent waiting for input messages (microseconds)
+            - TotalInputMessages: "TotalInputMessages" #Total number of messages processed.TotalInputMessages records only those messages that are propagated from input node terminals.
+            - TotalSizeOfInputMessages : "TotalSizeOfInputMessages"  #Total size of input messages (bytes)
+            - MaximumSizeOfInputMessages : "MaximumSizeOfInputMessages"   #Maximum input message size (bytes)
+            - MinimumSizeOfInputMessages : "MinimumSizeOfInputMessages" #Minimum message input size (bytes)
+            - NumberOfThreadsInPool : "NumberOfThreadsInPool"  #Number of threads in pool
+            - TimesMaximumNumberofThreadsReached : "TimesMaximumNumberofThreadsReached"  #Number of times the maximum number of threads is reached
+            - TotalNumberOfMQErrors : "TotalNumberOfMQErrors"   #Number of MQGET errors (MQInput node) or web services errors (HTTPInput node). For example, a conversion error occurs when the message is got from the queue.
+            - TotalNumberOfMessagesWithErrors : "TotalNumberOfMessagesWithErrors"       #Number of messages that contain errors
+            - TotalNumberOfErrorsProcessingMessages : "TotalNumberOfErrorsProcessingMessages"   #Number of errors when processing a message
+            - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages : "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"  #Number of timeouts when processing a message (AggregateReply node only)
+            - TotalNumberOfCommits : "TotalNumberOfCommits"  #Number of transaction commits
+            - TotalNumberOfBackouts : "TotalNumberOfBackouts"     #Number of transaction backouts
 
         - type: "Threads"
           identifiers: ["ThreadStatistics"]
           include:
-            - name : "TotalNumberOfInputMessages"  #Total number of messages that are processed by a thread
-              alias: "TotalNumberOfInputMessages"
-            - name: "TotalElapsedTime" #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name : "CPUTimeWaitingForInputMessage"  #Total processor time spent waiting for input messages (microseconds)
-              alias: "CPUTimeWaitingForInputMessage"
-            - name : "ElapsedTimeWaitingForInputMessage" #Total elapsed time that is spent waiting for input messages (microseconds)
-              alias: "ElapsedTimeWaitingForInputMessage"
-            - name: "TotalSizeOfInputMessages"    #Total size of input messages (bytes)
-              alias: "TotalSizeOfInputMessages"
-            - name : "MaximumSizeOfInputMessages"    #Maximum size of input messages (bytes)
-              alias: "MaximumSizeOfInputMessages"
-            - name : "MinimumSizeOfInputMessages"  #Minimum size of input messages (bytes)
-              alias: "MinimumSizeOfInputMessages"
+            - TotalNumberOfInputMessages : "TotalNumberOfInputMessages"  #Total number of messages that are processed by a thread
+            - TotalElapsedTime: "TotalElapsedTime" #Total elapsed time spent processing input messages (microseconds)
+            - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
+            - CPUTimeWaitingForInputMessage : "CPUTimeWaitingForInputMessage"  #Total processor time spent waiting for input messages (microseconds)
+            - ElapsedTimeWaitingForInputMessage : "ElapsedTimeWaitingForInputMessage" #Total elapsed time that is spent waiting for input messages (microseconds)
+            - TotalSizeOfInputMessages : "TotalSizeOfInputMessages"    #Total size of input messages (bytes)
+            - MaximumSizeOfInputMessages : "MaximumSizeOfInputMessages"    #Maximum size of input messages (bytes)
+            - MinimumSizeOfInputMessages : "MinimumSizeOfInputMessages"  #Minimum size of input messages (bytes)
 
         - type: "Nodes"
           identifiers: ["NodeStatistics"]
           include:
-            - name: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name : "MaximumElapsedTime"  #Maximum elapsed time spent processing input messages (microseconds)
-              alias: "MaximumElapsedTime"
-            - name : "MinimumElapsedTime"  #Minimum elapsed time spent processing input messages (microseconds)
-              alias: "MinimumElapsedTime"
-            - name : "TotalCPUTime"  #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name : "MaximumCPUTime"  #Maximum processor time spent processing input messages (microseconds)
-              alias: "MaximumCPUTime"
-            - name : "MinimumCPUTime"  #Minimum processor time spent processing input messages (microseconds)
-              alias: "MinimumCPUTime"
-            - name : "CountOfInvocations"  #Total number of messages that are processed by this node
-              alias: "CountOfInvocations"
-            - name: "NumberOfInputTerminals"    #Number of input terminals
-              alias: "NumberOfInputTerminals"
-            - name : "NumberOfOutputTerminals"  #Number of output terminals
-              alias: "NumberOfOutputTerminals"
+            - Number: "Number" #Number of node statistics subfolders in Nodes folder
+            - TotalElapsedTime: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
+            - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time spent processing input messages (microseconds)
+            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time spent processing input messages (microseconds)
+            - TotalCPUTime : "TotalCPUTime"  #Total processor time spent processing input messages (microseconds)
+            - MaximumCPUTime : "MaximumCPUTime"  #Maximum processor time spent processing input messages (microseconds)
+            - MinimumCPUTime : "MinimumCPUTime"  #Minimum processor time spent processing input messages (microseconds)
+            - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
+            - NumberOfInputTerminals: "NumberOfInputTerminals"    #Number of input terminals
+            - NumberOfOutputTerminals : "NumberOfOutputTerminals"  #Number of output terminals
 
         - type: "Nodes"
           identifiers: ["NodeStatistics|TerminalStatistics"]
           include:
-            - name : "CountOfInvocations"  #Total number of messages that are processed by this node
-              alias: "CountOfInvocations"
+            - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
 
     derivedMetrics:
       flowStatistics:
         - type: "MessageFlow"
           identifiers: [""]
           include:
-            - name : "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
-            - name: "AverageCPUTimeWaitingForInputMessage"
-              alias: "AverageCPUTimeWaitingForInputMessage"
-            - name: "AverageSizeOfInputMessages"
-              alias: "AverageSizeOfInputMessages"
+            - AverageElapsedTime : "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
+            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
+            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
 
         - type: "Threads"
           identifiers: ["ThreadStatistics"]
           include:
-            - name: "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
-            - name: "AverageCPUTimeWaitingForInputMessage"
-              alias: "AverageCPUTimeWaitingForInputMessage"
-            - name: "AverageElapsedTimeWaitingForInputMessage"
-              alias: "AverageElapsedTimeWaitingForInputMessage"
-            - name: "AverageSizeOfInputMessages"
-              alias: "AverageSizeOfInputMessages"
+            - AverageElapsedTime: "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
+            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
+            - AverageElapsedTimeWaitingForInputMessage: "AverageElapsedTimeWaitingForInputMessage"
+            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
 
         - type: "Nodes"
           identifiers: ["NodeStatistics"]
           include:
-            - name: "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
+            - AverageElapsedTime: "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
 
 
 #Don't change this unless you are having more than 10 queue managers to monitor.
