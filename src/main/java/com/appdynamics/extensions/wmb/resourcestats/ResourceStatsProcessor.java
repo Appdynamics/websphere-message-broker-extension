@@ -1,11 +1,13 @@
 package com.appdynamics.extensions.wmb.resourcestats;
 
-import com.appdynamics.extensions.MetricWriteHelper;
 import com.appdynamics.extensions.logging.ExtensionsLoggerFactory;
-import com.appdynamics.extensions.metrics.Metric;
 import com.appdynamics.extensions.wmb.StatsProcessor;
 import com.appdynamics.extensions.wmb.XmlParser;
+import com.appdynamics.extensions.wmb.metricUtils.Metric;
+import com.appdynamics.extensions.wmb.metricUtils.MetricPrinter;
+import com.appdynamics.extensions.wmb.metricUtils.MetricProperties;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.jms.*;
 import javax.xml.bind.JAXBException;
@@ -21,11 +23,11 @@ public class ResourceStatsProcessor<T> extends StatsProcessor<T> implements Mess
 
     private static final Logger logger = ExtensionsLoggerFactory.getLogger(ResourceStatsProcessor.class);
     private static final String EXECUTION_GROUP_NAME = "executionGroupName";
-    private static final String SEPARATOR = "|";
-    private Map<String,Map> metricPropsHolder;
 
-    public ResourceStatsProcessor(Map config, XmlParser<T> parser, MetricWriteHelper metricWriteHelper, String metricPrefix) {
-        super(config,parser,metricWriteHelper,metricPrefix);
+    private Map<String,MetricProperties> metricPropsHolder;
+
+    public ResourceStatsProcessor(Map config, XmlParser<T> parser, MetricPrinter printer) {
+        super(config,parser,printer);
         this.metricPropsHolder = buildMetricProperties("metrics","resourceStatistics");
     }
 
@@ -47,16 +49,16 @@ public class ResourceStatsProcessor<T> extends StatsProcessor<T> implements Mess
      * @param message
      */
     public void onMessage(Message message) {
-    	long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
         String text = null;
         try {
-        	text = getMessageString(message);
+            text = getMessageString(message);
             if(text != null) {
                 try {
                     T resourceStatistics = parser.parse(text);
                     if (resourceStatistics != null) {
                         List<Metric> metrics = buildMetrics(resourceStatistics);
-                        metricWriteHelper.transformAndPrintMetrics(metrics);
+                        printer.reportMetrics(metrics);
                     }
                 } catch (JAXBException e) {
                     logger.error("Unable to unmarshal XML message {}", text,e);
@@ -75,6 +77,7 @@ public class ResourceStatsProcessor<T> extends StatsProcessor<T> implements Mess
         ResourceStatistics resourceStatistics = (ResourceStatistics) stats;
         List<Metric> metrics = new ArrayList<Metric>();
         if(resourceStatistics != null){
+            //String brokerName = resourceStatistics.getAttributes().get(new QName(BROKER_LABEL));
             String executionGroupName = resourceStatistics.getAttributes().get(new QName(EXECUTION_GROUP_NAME));
             if(resourceStatistics.getResourceType() != null){
                 for(ResourceType resourceType : resourceStatistics.getResourceType()){
@@ -84,13 +87,15 @@ public class ResourceStatsProcessor<T> extends StatsProcessor<T> implements Mess
                             String resourceIdName = resourceIdentifier.getName();
                             for (QName key: resourceIdentifier.getAttributes().keySet()) {
                                 String resourceMetric = join(SEPARATOR,resourceTypeName,resourceIdName,key.toString());
-                                Map resourceMetricProps = metricPropsHolder.get(resourceMetric);
+                                MetricProperties resourceMetricProps = metricPropsHolder.get(resourceMetric);
                                 if(resourceMetricProps != null){
                                     String value = resourceIdentifier.getAttributes().get(key);
                                     String metricPath = join(SEPARATOR,executionGroupName,
                                             "Resource Statistics", resourceTypeName, resourceIdName);
-                                    Metric metric = new Metric(key.toString(),value,metricPrefix+SEPARATOR+metricPath+SEPARATOR+resourceMetricProps.get("alias"),resourceMetricProps);
-                                    metrics.add(metric);
+                                    Metric metricPoint = createMetricPoint(metricPath,value,resourceMetricProps,key.toString());
+                                    if(metricPoint != null){
+                                        metrics.add(metricPoint);
+                                    }
                                 }
                             }
                         }

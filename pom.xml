@@ -6,7 +6,7 @@
 
     <groupId>com.appdynamics.extensions</groupId>
     <artifactId>websphere-message-broker-extension</artifactId>
-    <version>6.0.0</version>
+    <version>6.0.1</version>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -177,7 +177,7 @@
                                 <copy todir="${target.dir}">
                                     <fileset dir="src/main/resources/conf" includes="monitor.xml"/>
                                     <fileset dir="src/main/resources/conf" includes="config.yml"/>
-                                    <fileset dir="src/main/resources/conf" includes="log4j.xml"/>
+                                    <fileset dir="src/main/resources/conf" includes="log4j2.xml"/>
                                     <fileset dir="src/main/resources/conf" includes="log4j.dtd"/>
                                     <fileset dir="src/main/resources/" includes="appd-message-broker-monitor.sh"/>
                                     <fileset dir="src/main/resources/" includes="appd-message-broker-monitor.bat"/>

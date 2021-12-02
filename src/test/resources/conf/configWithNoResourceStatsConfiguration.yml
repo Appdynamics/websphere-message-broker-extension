@@ -56,132 +56,84 @@ queueManagers:
     metrics:
       flowStatistics:
         - type: "MessageFlow"
-          identifiers: [""]
+          indentifiers: [""]
           include:
-            - name: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name: "MaximumElapsedTime"  #Maximum elapsed time that is spent processing an input message (microseconds)
-              alias: "MaximumElapsedTime"
-            - name: "MinimumElapsedTime"  #Minimum elapsed time that is spent processing an input message (microseconds)
-              alias: "MinimumElapsedTime"
-            - name: "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name: "MaximumCPUTime" #Maximum processor time that is spent processing an input message (microseconds)
-              alias: "MaximumCPUTime"
-            - name: "MinimumCPUTime" #Minimum processor time that is spent processing an input message (microseconds)
-              alias: "MinimumCPUTime"
-            - name: "CPUTimeWaitingForInputMessage" #Total processor time spent waiting for input messages (microseconds)
-              alias: "CPUTimeWaitingForInputMessage"
-            - name: "ElapsedTimeWaitingForInputMessage" #	Total elapsed time that is spent waiting for input messages (microseconds)
-              alias: "ElapsedTimeWaitingForInputMessage"
-            - name: "TotalInputMessages" #Total number of messages processed.TotalInputMessages records only those messages that are propagated from input node terminals.
-              alias: "TotalInputMessages"
-            - name : "TotalSizeOfInputMessages"  #Total size of input messages (bytes)
-              alias: "TotalSizeOfInputMessages"
-            - name : "MaximumSizeOfInputMessages"   #Maximum input message size (bytes)
-              alias: "MaximumSizeOfInputMessages"
-            - name : "MinimumSizeOfInputMessages" #Minimum message input size (bytes)
-              alias: "MinimumSizeOfInputMessages"
-            - name : "NumberOfThreadsInPool"  #Number of threads in pool
-              alias: "NumberOfThreadsInPool"
-            - name : "TimesMaximumNumberofThreadsReached"  #Number of times the maximum number of threads is reached
-              alias: "TimesMaximumNumberofThreadsReached"
-            - name : "TotalNumberOfMQErrors"   #Number of MQGET errors (MQInput node) or web services errors (HTTPInput node). For example, a conversion error occurs when the message is got from the queue.
-              alias: "TotalNumberOfMQErrors"
-            - name : "TotalNumberOfMessagesWithErrors"       #Number of messages that contain errors
-              alias: "TotalNumberOfMessagesWithErrors"
-            - name : "TotalNumberOfErrorsProcessingMessages"   #Number of errors when processing a message
-              alias: "TotalNumberOfErrorsProcessingMessages"
-            - name : "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"  #Number of timeouts when processing a message (AggregateReply node only)
-              alias: "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"
-            - name : "TotalNumberOfCommits"  #Number of transaction commits
-              alias: "TotalNumberOfCommits"
-            - name : "TotalNumberOfBackouts"     #Number of transaction backouts
-              alias: "TotalNumberOfBackouts"
+            - TotalElapsedTime : "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
+            - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time that is spent processing an input message (microseconds)
+            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time that is spent processing an input message (microseconds)
+            - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
+            - MaximumCPUTime : "MaximumCPUTime" #Maximum processor time that is spent processing an input message (microseconds)
+            - MinimumCPUTime : "MinimumCPUTime" #Minimum processor time that is spent processing an input message (microseconds)
+            - CPUTimeWaitingForInputMessage : "CPUTimeWaitingForInputMessage" #Total processor time spent waiting for input messages (microseconds)
+            - ElapsedTimeWaitingForInputMessage : "ElapsedTimeWaitingForInputMessage" #	Total elapsed time that is spent waiting for input messages (microseconds)
+            - TotalInputMessages: "TotalInputMessages" #Total number of messages processed.TotalInputMessages records only those messages that are propagated from input node terminals.
+            - TotalSizeOfInputMessages : "TotalSizeOfInputMessages"  #Total size of input messages (bytes)
+            - MaximumSizeOfInputMessages : "MaximumSizeOfInputMessages"   #Maximum input message size (bytes)
+            - MinimumSizeOfInputMessages : "MinimumSizeOfInputMessages" #Minimum message input size (bytes)
+            - NumberOfThreadsInPool : "NumberOfThreadsInPool"  #Number of threads in pool
+            - TimesMaximumNumberofThreadsReached : "TimesMaximumNumberofThreadsReached"  #Number of times the maximum number of threads is reached
+            - TotalNumberOfMQErrors : "TotalNumberOfMQErrors"   #Number of MQGET errors (MQInput node) or web services errors (HTTPInput node). For example, a conversion error occurs when the message is got from the queue.
+            - TotalNumberOfMessagesWithErrors : "TotalNumberOfMessagesWithErrors"       #Number of messages that contain errors
+            - TotalNumberOfErrorsProcessingMessages : "TotalNumberOfErrorsProcessingMessages"   #Number of errors when processing a message
+            - TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages : "TotalNumberOfTimeOutsWaitingForRepliesToAggregateMessages"  #Number of timeouts when processing a message (AggregateReply node only)
+            - TotalNumberOfCommits : "TotalNumberOfCommits"  #Number of transaction commits
+            - TotalNumberOfBackouts : "TotalNumberOfBackouts"     #Number of transaction backouts
 
         - type: "Threads"
           identifiers: ["ThreadStatistics"]
           include:
-            - name : "TotalNumberOfInputMessages"  #Total number of messages that are processed by a thread
-              alias: "TotalNumberOfInputMessages"
-            - name: "TotalElapsedTime" #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name : "CPUTimeWaitingForInputMessage"  #Total processor time spent waiting for input messages (microseconds)
-              alias: "CPUTimeWaitingForInputMessage"
-            - name : "ElapsedTimeWaitingForInputMessage" #Total elapsed time that is spent waiting for input messages (microseconds)
-              alias: "ElapsedTimeWaitingForInputMessage"
-            - name: "TotalSizeOfInputMessages"    #Total size of input messages (bytes)
-              alias: "TotalSizeOfInputMessages"
-            - name : "MaximumSizeOfInputMessages"    #Maximum size of input messages (bytes)
-              alias: "MaximumSizeOfInputMessages"
-            - name : "MinimumSizeOfInputMessages"  #Minimum size of input messages (bytes)
-              alias: "MinimumSizeOfInputMessages"
+            - TotalNumberOfInputMessages : "TotalNumberOfInputMessages"  #Total number of messages that are processed by a thread
+            - TotalElapsedTime: "TotalElapsedTime" #Total elapsed time spent processing input messages (microseconds)
+            - TotalCPUTime : "TotalCPUTime" #Total processor time spent processing input messages (microseconds)
+            - CPUTimeWaitingForInputMessage : "CPUTimeWaitingForInputMessage"  #Total processor time spent waiting for input messages (microseconds)
+            - ElapsedTimeWaitingForInputMessage : "ElapsedTimeWaitingForInputMessage" #Total elapsed time that is spent waiting for input messages (microseconds)
+            - TotalSizeOfInputMessages : "TotalSizeOfInputMessages"    #Total size of input messages (bytes)
+            - MaximumSizeOfInputMessages : "MaximumSizeOfInputMessages"    #Maximum size of input messages (bytes)
+            - MinimumSizeOfInputMessages : "MinimumSizeOfInputMessages"  #Minimum size of input messages (bytes)
 
         - type: "Nodes"
           identifiers: ["NodeStatistics"]
           include:
-            - name: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
-              alias: "TotalElapsedTime"
-            - name : "MaximumElapsedTime"  #Maximum elapsed time spent processing input messages (microseconds)
-              alias: "MaximumElapsedTime"
-            - name : "MinimumElapsedTime"  #Minimum elapsed time spent processing input messages (microseconds)
-              alias: "MinimumElapsedTime"
-            - name : "TotalCPUTime"  #Total processor time spent processing input messages (microseconds)
-              alias: "TotalCPUTime"
-            - name : "MaximumCPUTime"  #Maximum processor time spent processing input messages (microseconds)
-              alias: "MaximumCPUTime"
-            - name : "MinimumCPUTime"  #Minimum processor time spent processing input messages (microseconds)
-              alias: "MinimumCPUTime"
-            - name : "CountOfInvocations"  #Total number of messages that are processed by this node
-              alias: "CountOfInvocations"
-            - name: "NumberOfInputTerminals"    #Number of input terminals
-              alias: "NumberOfInputTerminals"
-            - name : "NumberOfOutputTerminals"  #Number of output terminals
-              alias: "NumberOfOutputTerminals"
+            - Number: "Number" #Number of node statistics subfolders in Nodes folder
+            - TotalElapsedTime: "TotalElapsedTime"  #Total elapsed time spent processing input messages (microseconds)
+            - MaximumElapsedTime : "MaximumElapsedTime"  #Maximum elapsed time spent processing input messages (microseconds)
+            - MinimumElapsedTime : "MinimumElapsedTime"  #Minimum elapsed time spent processing input messages (microseconds)
+            - TotalCPUTime : "TotalCPUTime"  #Total processor time spent processing input messages (microseconds)
+            - MaximumCPUTime : "MaximumCPUTime"  #Maximum processor time spent processing input messages (microseconds)
+            - MinimumCPUTime : "MinimumCPUTime"  #Minimum processor time spent processing input messages (microseconds)
+            - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
+            - NumberOfInputTerminals: "NumberOfInputTerminals"    #Number of input terminals
+            - NumberOfOutputTerminals : "NumberOfOutputTerminals"  #Number of output terminals
 
         - type: "Nodes"
           identifiers: ["NodeStatistics|TerminalStatistics"]
           include:
-            - name : "CountOfInvocations"  #Total number of messages that are processed by this node
-              alias: "CountOfInvocations"
+            - CountOfInvocations : "CountOfInvocations"  #Total number of messages that are processed by this node
 
     derivedMetrics:
       flowStatistics:
         - type: "MessageFlow"
           identifiers: [""]
           include:
-            - name : "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
-            - name: "AverageCPUTimeWaitingForInputMessage"
-              alias: "AverageCPUTimeWaitingForInputMessage"
-            - name: "AverageSizeOfInputMessages"
-              alias: "AverageSizeOfInputMessages"
+            - AverageElapsedTime : "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
+            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
+            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
 
         - type: "Threads"
           identifiers: ["ThreadStatistics"]
           include:
-            - name: "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
-            - name: "AverageCPUTimeWaitingForInputMessage"
-              alias: "AverageCPUTimeWaitingForInputMessage"
-            - name: "AverageElapsedTimeWaitingForInputMessage"
-              alias: "AverageElapsedTimeWaitingForInputMessage"
-            - name: "AverageSizeOfInputMessages"
-              alias: "AverageSizeOfInputMessages"
+            - AverageElapsedTime: "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
+            - AverageCPUTimeWaitingForInputMessage: "AverageCPUTimeWaitingForInputMessage"
+            - AverageElapsedTimeWaitingForInputMessage: "AverageElapsedTimeWaitingForInputMessage"
+            - AverageSizeOfInputMessages: "AverageSizeOfInputMessages"
 
         - type: "Nodes"
           identifiers: ["NodeStatistics"]
           include:
-            - name: "AverageElapsedTime"
-              alias: "AverageElapsedTime"
-            - name: "AverageCPUTime"
-              alias: "AverageCPUTime"
+            - AverageElapsedTime: "AverageElapsedTime"
+            - AverageCPUTime: "AverageCPUTime"
 
 
 #Don't change this unless you are having more than 10 queue managers to monitor.
